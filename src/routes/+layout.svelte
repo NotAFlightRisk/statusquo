@@ -1,11 +1,14 @@
 <script lang="ts">
   import '../app.css';
   import Footer from '$lib/components/Footer.svelte';
+  import Loading from '$lib/components/Loading.svelte';
   import ThemeToggle from '$lib/components/ThemeToggle.svelte';
   import Wordmark from '$lib/components/Wordmark.svelte';
 
   let { data, children } = $props();
 </script>
+
+<Loading />
 
 <a class="skip" href="#main">Skip to the board</a>
 

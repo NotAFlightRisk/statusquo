@@ -4,20 +4,32 @@
     here: string;
   }
 
+  interface Link {
+    key: string;
+    href: string;
+    label: string;
+    away?: boolean;
+  }
+
   let { base, here }: Props = $props();
 
-  let links = $derived([
+  let links = $derived<Link[]>([
     { key: 'board', href: base || '/', label: 'Board' },
     { key: 'incidents', href: `${base}/incidents`, label: 'Incidents' },
     { key: 'maintenance', href: `${base}/maintenance`, label: 'Maintenance' },
     { key: 'trends', href: `${base}/trends`, label: 'Trends' },
-    { key: 'feed', href: `${base}/feed.xml`, label: 'RSS' }
+    { key: 'feed', href: `${base}/feed.xml`, label: 'RSS', away: true }
   ]);
 </script>
 
 <nav aria-label="This board">
   {#each links as link (link.key)}
-    <a href={link.href} aria-current={link.key === here ? 'page' : undefined}>{link.label}</a>
+    <a
+      href={link.href}
+      target={link.away ? '_blank' : undefined}
+      rel={link.away ? 'noreferrer' : undefined}
+      aria-current={link.key === here ? 'page' : undefined}>{link.label}</a
+    >
   {/each}
 </nav>
 

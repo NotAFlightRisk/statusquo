@@ -33,7 +33,7 @@
 
   <h3>
     {#if entry.url}
-      <a href={entry.url} rel="noreferrer">{entry.title}</a>
+      <a href={entry.url} target="_blank" rel="noreferrer">{entry.title}</a>
     {:else}
       {entry.title}
     {/if}

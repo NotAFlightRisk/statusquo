@@ -44,7 +44,7 @@
       <h1>{service.name}</h1>
       <p class="stamp">
         Station {stationCode(service.slug)} · read from
-        <a href={service.url} rel="noreferrer">{new URL(service.url).host}</a>
+        <a href={service.url} target="_blank" rel="noreferrer">{new URL(service.url).host}</a>
         via {service.providerLabel}
       </p>
     </div>

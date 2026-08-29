@@ -1,5 +1,6 @@
 <script lang="ts">
   import { LEVELS, LEVEL_ORDER } from '$lib/status';
+  import { tooltip } from '$lib/tooltip';
   import { byMonth } from '$lib/stats';
   import type { Incident, Level } from '$lib/types';
 
@@ -14,40 +15,25 @@
 
   let buckets = $derived(byMonth(incidents, months));
   let peak = $derived(Math.max(1, ...buckets.map((bucket) => bucket.total)));
-  let active = $state<number | null>(null);
-  let shown = $derived(active === null ? null : buckets[active]);
   let levels = $derived(LEVEL_ORDER.filter((level) => level !== 'operational'));
 
-  const readout = (counts: Partial<Record<Level, number>>) =>
+  const breakdown = (counts: Partial<Record<Level, number>>) =>
     levels
       .filter((level) => counts[level])
       .map((level) => `${counts[level]} ${LEVELS[level].label.toLowerCase()}`)
       .join(', ');
+
+  const readout = (bucket: (typeof buckets)[number]) =>
+    `${bucket.month} · ${bucket.total} ${bucket.total === 1 ? 'incident' : 'incidents'}` +
+    (bucket.total ? ` · ${breakdown(bucket.counts)}` : '');
 </script>
 
 <figure class="chart">
-  <figcaption class="stamp">
-    {#if shown}
-      {shown.month} · {shown.total}
-      {shown.total === 1 ? 'incident' : 'incidents'}{shown.total
-        ? ` · ${readout(shown.counts)}`
-        : ''}
-    {:else}
-      Incidents per month · tallest bar {peak}
-    {/if}
-  </figcaption>
+  <figcaption class="stamp">Incidents per month · tallest bar {peak}</figcaption>
 
   <div class="bars" style:--height="{HEIGHT}px">
-    {#each buckets as bucket, index (bucket.month)}
-      <button
-        class="bar"
-        type="button"
-        aria-label="{bucket.month}: {bucket.total} incidents"
-        onmouseenter={() => (active = index)}
-        onmouseleave={() => (active = null)}
-        onfocus={() => (active = index)}
-        onblur={() => (active = null)}
-      >
+    {#each buckets as bucket (bucket.month)}
+      <button class="bar" type="button" aria-label={readout(bucket)} use:tooltip={readout(bucket)}>
         <span class="stack">
           {#each levels as level (level)}
             {#if bucket.counts[level]}

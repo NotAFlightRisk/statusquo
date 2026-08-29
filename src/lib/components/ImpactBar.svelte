@@ -1,5 +1,6 @@
 <script lang="ts">
   import { LEVELS } from '$lib/status';
+  import { tooltip } from '$lib/tooltip';
   import type { Level } from '$lib/types';
 
   let { mix }: { mix: { level: Level; count: number }[] } = $props();
@@ -14,7 +15,7 @@
         class="slice"
         style:background="var(--level-{slice.level})"
         style:flex-grow={slice.count}
-        title="{LEVELS[slice.level].label}: {slice.count}"
+        use:tooltip={`${LEVELS[slice.level].label} · ${slice.count} of ${total} · ${Math.round((slice.count / total) * 100)}%`}
       ></span>
     {/each}
   </div>
