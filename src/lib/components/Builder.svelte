@@ -17,6 +17,9 @@
   let shown = $derived(
     CATALOGUE.filter((entry) => entry.name.toLowerCase().includes(filter.trim().toLowerCase()))
   );
+  let sections = $derived(
+    [...Map.groupBy(shown, (entry) => entry.group)].map(([group, entries]) => ({ group, entries }))
+  );
   let full = $derived(picked.length >= MAX_SERVICES);
 
   function toggle(slug: string, on: boolean) {
@@ -49,31 +52,38 @@
     </label>
   </div>
 
-  <fieldset class="index">
-    <legend class="stamp">Station index · {CATALOGUE.length} confirmed answering</legend>
-    {#each shown as entry (entry.slug)}
-      <label class="station" class:disabled={full && !picked.includes(entry.slug)}>
-        <input
-          type="checkbox"
-          name="page"
-          value={entry.slug}
-          checked={picked.includes(entry.slug)}
-          disabled={full && !picked.includes(entry.slug)}
-          onchange={(event) => toggle(entry.slug, event.currentTarget.checked)}
-        />
-        <ServiceIcon
-          src={icons.replace('{domain}', entry.site)}
-          name={entry.name}
-          slug={entry.slug}
-          size={18}
-        />
-        <span class="mono code">{stationCode(entry.slug)}</span>
-        <span class="label">{entry.name}</span>
-      </label>
+  <div class="index">
+    <p class="stamp">Station index · {CATALOGUE.length} confirmed answering</p>
+    {#each sections as section (section.group)}
+      <fieldset class="section">
+        <legend class="stamp">{section.group} · {section.entries.length}</legend>
+        <div class="stations">
+          {#each section.entries as entry (entry.slug)}
+            <label class="station" class:disabled={full && !picked.includes(entry.slug)}>
+              <input
+                type="checkbox"
+                name="page"
+                value={entry.slug}
+                checked={picked.includes(entry.slug)}
+                disabled={full && !picked.includes(entry.slug)}
+                onchange={(event) => toggle(entry.slug, event.currentTarget.checked)}
+              />
+              <ServiceIcon
+                src={icons.replace('{domain}', entry.site)}
+                name={entry.name}
+                slug={entry.slug}
+                size={18}
+              />
+              <span class="mono code">{stationCode(entry.slug)}</span>
+              <span class="label">{entry.name}</span>
+            </label>
+          {/each}
+        </div>
+      </fieldset>
     {:else}
       <p class="empty">Nothing in the index matches that. Paste its address instead.</p>
     {/each}
-  </fieldset>
+  </div>
 
   <div class="go">
     <button type="submit">Build the board</button>
@@ -130,17 +140,30 @@
   }
 
   .index {
-    margin: 0;
-    padding: var(--space-4) 0 0;
-    border: 0;
+    padding-block-start: var(--space-4);
     border-block-start: var(--hairline) solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .section {
+    margin: 0;
+    padding: 0;
+    border: 0;
     display: grid;
-    gap: var(--space-1) var(--space-4);
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: var(--space-2);
 
     & legend {
       padding-inline-end: var(--space-3);
+      color: var(--text-muted);
     }
+  }
+
+  .stations {
+    display: grid;
+    gap: var(--space-1) var(--space-4);
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   }
 
   .station {
@@ -190,7 +213,6 @@
   }
 
   .empty {
-    grid-column: 1 / -1;
     color: var(--text-muted);
   }
 
