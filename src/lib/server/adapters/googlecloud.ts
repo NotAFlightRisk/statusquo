@@ -32,7 +32,7 @@ export const googlecloud: Adapter = {
       startedAt: entry.begin,
       endedAt: entry.end ?? null,
       url: entry.uri ? at(base, `/${entry.uri}`) : undefined,
-      updates: (entry.updates ?? [])
+      updates: (Array.isArray(entry.updates) ? entry.updates : [])
         .filter((update) => update.text && update.when)
         .map((update) => ({
           at: update.when as string,

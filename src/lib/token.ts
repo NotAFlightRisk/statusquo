@@ -3,8 +3,12 @@ import type { Target } from './types';
 
 export const MAX_SERVICES = 10;
 
-const BLOCKED_HOST =
-  /^(localhost$|127\.|0\.|10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.|\[?::1\]?$|.*\.local$|.*\.internal$)/i;
+// Every IP literal, in every base, ends in a numeric label. Requiring an alphabetic TLD
+// rejects the lot in one rule: 0177.0.0.1, 2130706433, 0x7f000001, [fc00::1], localhost.
+const DNS_NAME = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*\.[a-z]{2,}$/i;
+
+const PRIVATE_SUFFIX =
+  /\.(local|internal|localdomain|home|lan|intranet|corp|test|example|invalid)$/i;
 
 const b64url = {
   encode: (value: string) => btoa(value).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''),
@@ -22,7 +26,7 @@ export function normaliseUrl(raw: string): string | null {
     return null;
   }
   if (url.protocol !== 'https:' && url.protocol !== 'http:') return null;
-  if (BLOCKED_HOST.test(url.hostname) || !url.hostname.includes('.')) return null;
+  if (!DNS_NAME.test(url.hostname) || PRIVATE_SUFFIX.test(url.hostname)) return null;
   url.hash = '';
   url.pathname = url.pathname.replace(/\/+$/, '');
   return url.href.replace(/\/$/, '');

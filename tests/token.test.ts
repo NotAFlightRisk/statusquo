@@ -17,6 +17,21 @@ describe('normaliseUrl', () => {
     expect(normaliseUrl('file:///etc/passwd')).toBeNull();
     expect(normaliseUrl('javascript:alert(1)')).toBeNull();
   });
+
+  it('refuses an address dressed up in another base', () => {
+    expect(normaliseUrl('http://0177.0.0.1')).toBeNull();
+    expect(normaliseUrl('http://2130706433')).toBeNull();
+    expect(normaliseUrl('http://0x7f000001')).toBeNull();
+    expect(normaliseUrl('http://127.1')).toBeNull();
+    expect(normaliseUrl('http://[fc00::1]')).toBeNull();
+    expect(normaliseUrl('http://[::ffff:127.0.0.1]')).toBeNull();
+    expect(normaliseUrl('http://192.168.001.004')).toBeNull();
+  });
+
+  it('still lets a normal status page through', () => {
+    expect(normaliseUrl('https://status.example.com')).toBe('https://status.example.com');
+    expect(normaliseUrl('https://my-corp.status.io/page')).toBe('https://my-corp.status.io/page');
+  });
 });
 
 describe('tokenFor', () => {

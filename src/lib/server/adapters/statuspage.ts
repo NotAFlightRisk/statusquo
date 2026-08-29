@@ -60,7 +60,11 @@ interface Summary {
 }
 
 const updates = (raw: RawUpdate[] = []): Update[] =>
-  raw.map((entry) => ({ at: entry.created_at, status: entry.status, body: entry.body }));
+  (Array.isArray(raw) ? raw : []).map((entry) => ({
+    at: entry.created_at,
+    status: entry.status,
+    body: entry.body
+  }));
 
 const toIncident = (raw: RawIncident): Incident => ({
   id: raw.id,
@@ -100,7 +104,7 @@ export const statuspage: Adapter = {
       )
     ]);
 
-    const components = (summary.components ?? [])
+    const components = (Array.isArray(summary.components) ? summary.components : [])
       .filter((entry) => !entry.group)
       .map((entry) => ({
         id: entry.id,
@@ -109,10 +113,13 @@ export const statuspage: Adapter = {
         level: COMPONENT[entry.status] ?? levelFromText(entry.status)
       }));
 
-    const incidents = [...(history?.incidents ?? []), ...(summary.incidents ?? [])];
+    const list = <T>(value: T[] | undefined) => (Array.isArray(value) ? value : []);
+    // Summary first, since its copy of a live incident is the fresher one and dedupe keeps
+    // whichever it sees first
+    const incidents = [...list(summary.incidents), ...list(history?.incidents)];
     const maintenances = [
-      ...(planned?.scheduled_maintenances ?? []),
-      ...(summary.scheduled_maintenances ?? [])
+      ...list(summary.scheduled_maintenances),
+      ...list(planned?.scheduled_maintenances)
     ];
 
     const indicator = summary.status?.indicator;

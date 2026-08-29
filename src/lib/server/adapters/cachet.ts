@@ -4,7 +4,10 @@ import { worst } from '$lib/status';
 import { at, fetchJson } from '../http';
 
 const COMPONENT: Level[] = ['unknown', 'operational', 'degraded', 'partial', 'major'];
-const INCIDENT: Level[] = ['unknown', 'major', 'degraded', 'degraded', 'operational'];
+
+// Cachet's incident status is a lifecycle (investigating/identified/watching/fixed), not a
+// severity, so there is no impact to report. Fixed is 4.
+const FIXED = 4;
 
 interface RawComponent {
   id: number;
@@ -24,7 +27,11 @@ interface RawIncident {
   permalink?: string;
 }
 
-const stamp = (value: string) => value.replace(' ', 'T') + (value.endsWith('Z') ? '' : 'Z');
+// Cachet sends "2026-08-29 12:00:00", sometimes already carrying an offset
+const stamp = (value: string) => {
+  const iso = value.replace(' ', 'T');
+  return /[Zz]$|[+-]\d{2}:?\d{2}$/.test(iso) ? iso : `${iso}Z`;
+};
 
 /** Cachet, self-hosted and common on smaller providers. Numeric status codes, hence the arrays. */
 export const cachet: Adapter = {
@@ -32,7 +39,7 @@ export const cachet: Adapter = {
   label: 'Cachet',
   async load(base) {
     const raw = await fetchJson<{ data?: RawComponent[] }>(at(base, '/api/v1/components'));
-    if (!raw?.data) return null;
+    if (!Array.isArray(raw?.data)) return null;
 
     const components = raw.data.map((entry) => ({
       id: String(entry.id),
@@ -42,7 +49,7 @@ export const cachet: Adapter = {
     }));
 
     const incidents = await fetchJson<{ data?: RawIncident[] }>(at(base, '/api/v1/incidents'));
-    const all = incidents?.data ?? [];
+    const all = Array.isArray(incidents?.data) ? incidents.data : [];
 
     return {
       name: '',
@@ -54,11 +61,11 @@ export const cachet: Adapter = {
         .map((entry) => ({
           id: String(entry.id),
           title: entry.name,
-          level: INCIDENT[entry.status] ?? 'unknown',
-          status: entry.status === 4 ? 'resolved' : 'investigating',
-          resolved: entry.status === 4,
+          level: 'degraded',
+          status: entry.status === FIXED ? 'resolved' : 'investigating',
+          resolved: entry.status === FIXED,
           startedAt: stamp(entry.created_at),
-          endedAt: entry.status === 4 ? stamp(entry.updated_at ?? entry.created_at) : null,
+          endedAt: entry.status === FIXED ? stamp(entry.updated_at ?? entry.created_at) : null,
           url: entry.permalink,
           updates: entry.message
             ? [{ at: stamp(entry.created_at), status: 'update', body: entry.message }]

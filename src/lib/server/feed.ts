@@ -6,6 +6,10 @@ import { boardDescription } from '$lib/describe';
 const escape = (value: string) =>
   value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+// Provider-controlled, so anything that is not a plain web link points back at us instead
+const safeLink = (link: string | undefined, fallback: string) =>
+  link && /^https?:\/\//i.test(link) ? link : fallback;
+
 const rfc822 = (iso: string) => {
   const at = new Date(iso);
   return Number.isNaN(at.valueOf()) ? new Date().toUTCString() : at.toUTCString();
@@ -26,7 +30,7 @@ export function boardFeed(board: Board, origin: string): string {
   const entries: Entry[] = [
     ...allIncidents(board).map((incident) => ({
       title: `${incident.service.name}: ${incident.title}`,
-      link: incident.url ?? `${base}/${incident.service.slug}`,
+      link: safeLink(incident.url, `${base}/${incident.service.slug}`),
       guid: `${incident.service.slug}-${incident.id}`,
       at: incident.startedAt,
       body: [
@@ -38,7 +42,7 @@ export function boardFeed(board: Board, origin: string): string {
     })),
     ...allMaintenances(board).map((entry) => ({
       title: `${entry.service.name}: scheduled maintenance, ${entry.title}`,
-      link: entry.url ?? `${base}/${entry.service.slug}`,
+      link: safeLink(entry.url, `${base}/${entry.service.slug}`),
       guid: `${entry.service.slug}-maint-${entry.id}`,
       at: entry.startsAt,
       body: entry.updates[0]?.body ?? 'Scheduled maintenance window.'

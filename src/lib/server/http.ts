@@ -1,4 +1,7 @@
+import { normaliseUrl } from '$lib/token';
+
 const TIMEOUT_MS = 9000;
+const MAX_HOPS = 5;
 const UA = 'statusquo (+https://statusquo.peng.ly)';
 
 interface Fetched {
@@ -6,16 +9,30 @@ interface Fetched {
   url: string;
 }
 
-/** Every upstream read is best effort - a miss degrades one field, never the whole page. */
+/**
+ * Every upstream read is best effort - a miss degrades one field, never the whole page.
+ * Redirects are followed by hand so each hop gets the same guard the pasted URL got,
+ * otherwise a 302 walks the fetcher straight into a private network.
+ */
 export async function fetchText(url: string, accept = '*/*'): Promise<Fetched | null> {
+  let target: string | null = normaliseUrl(url);
   try {
-    const res = await fetch(url, {
-      headers: { accept, 'user-agent': UA },
-      redirect: 'follow',
-      signal: AbortSignal.timeout(TIMEOUT_MS)
-    });
-    if (!res.ok) return null;
-    return { body: await res.text(), url: res.url || url };
+    for (let hop = 0; hop <= MAX_HOPS; hop += 1) {
+      if (!target) return null;
+      const res = await fetch(target, {
+        headers: { accept, 'user-agent': UA },
+        redirect: 'manual',
+        signal: AbortSignal.timeout(TIMEOUT_MS)
+      });
+      const location = res.headers.get('location');
+      if (res.status >= 300 && res.status < 400 && location) {
+        target = normaliseUrl(new URL(location, target).href);
+        continue;
+      }
+      if (!res.ok) return null;
+      return { body: await res.text(), url: target };
+    }
+    return null;
   } catch {
     return null;
   }

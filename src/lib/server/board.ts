@@ -34,7 +34,8 @@ async function load(target: Target, icons: string): Promise<Service> {
   const order = hinted ? [hinted, ...ADAPTERS.filter((one) => one !== hinted)] : ADAPTERS;
 
   for (const adapter of order) {
-    const data = await adapter.load(target.url);
+    // A provider that answers with an unexpected shape is a miss, not a broken board
+    const data = await adapter.load(target.url).catch(() => null);
     if (!data) continue;
     return {
       ...base,

@@ -23,17 +23,19 @@ function coveredFrom(incidents: Incident[]): number {
   return Math.min(...incidents.map((incident) => new Date(incident.startedAt).valueOf()));
 }
 
-/** One cell per day, coloured by the worst incident overlapping it. */
+/** One cell per calendar day (UTC), coloured by the worst incident overlapping it. */
 export function heatmap(incidents: Incident[], days = 90, now = Date.now()): DayCell[] {
-  const start = now - (days - 1) * DAY_MS;
+  const today = Math.floor(now / DAY_MS) * DAY_MS;
+  const start = today - (days - 1) * DAY_MS;
   const known = coveredFrom(incidents);
   const cells: DayCell[] = [];
   for (let offset = 0; offset < days; offset += 1) {
     const at = start + offset * DAY_MS;
     const hit = incidents.filter((incident) => {
       const from = new Date(incident.startedAt).valueOf();
-      const to = incident.endedAt ? new Date(incident.endedAt).valueOf() : from + DAY_MS;
-      return from < at + DAY_MS && to >= at;
+      // An open incident is still running, so it covers every day up to today
+      const to = incident.endedAt ? new Date(incident.endedAt).valueOf() : now;
+      return from < at + DAY_MS && to > at;
     });
     cells.push({
       date: day(at),

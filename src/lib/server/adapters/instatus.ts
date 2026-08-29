@@ -37,7 +37,8 @@ export const instatus: Adapter = {
     if (!summary?.page?.status) return null;
 
     const raw = await fetchJson<{ components?: RawComponent[] }>(at(base, '/v2/components.json'));
-    const components = (raw?.components ?? []).map((entry) => ({
+    const source = Array.isArray(raw?.components) ? raw.components : [];
+    const components = source.map((entry) => ({
       id: entry.id,
       name: entry.name,
       description: entry.description ?? undefined,
