@@ -1,0 +1,57 @@
+name: 🚀 Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: 🚀 Build and deploy
+    if: github.repository_owner == 'NotAFlightRisk'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://statusquo.peng.ly
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+        env:
+          ADAPTER: cloudflare
+
+      - name: Push it to Cloudflare
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4.0.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Check it is reading real status pages
+        run: |
+          site=$(node -p "require('./package.json').homepage")
+          for i in $(seq 1 20); do
+            read -r count level < <(curl -fsS "$site/api/board/github,cloudflare,npm" \
+              | node -pe "const b=JSON.parse(require('fs').readFileSync(0));\
+                 b.services.filter(s=>!s.error).length+' '+b.level" 2>/dev/null || echo "0 none")
+            if [ "$count" = "3" ]; then
+              echo "✅ [$site]($site) read all 3 providers, board is \`$level\`" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            sleep 6
+          done
+          echo "❌ [$site]($site) is not reading live status pages" >> "$GITHUB_STEP_SUMMARY"
+          exit 1

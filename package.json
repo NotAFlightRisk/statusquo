@@ -1,0 +1,45 @@
+{
+  "name": "statusquo",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "start": "node build/index.js",
+    "preview": "vite preview",
+    "prepare": "svelte-kit sync || echo ''",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@fontsource-variable/archivo": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@sveltejs/adapter-cloudflare": "^7.2.9",
+    "@sveltejs/adapter-node": "^5.3.3",
+    "@sveltejs/kit": "^2.70.3",
+    "@sveltejs/vite-plugin-svelte": "^7.1.2",
+    "@types/node": "^26.2.0",
+    "prettier": "^3.9.6",
+    "prettier-plugin-svelte": "^4.1.1",
+    "svelte": "^5.56.10",
+    "svelte-check": "^4.6.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  },
+  "description": "Combine any number of third-party status pages into one dashboard and RSS feed",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NotAFlightRisk/statusquo.git"
+  },
+  "homepage": "https://statusquo.peng.ly",
+  "engines": {
+    "node": "^22.12.0 || >=24.0.0"
+  },
+  "overrides": {
+    "cookie": "^0.7.0"
+  }
+}

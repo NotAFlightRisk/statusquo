@@ -1,0 +1,10 @@
+{
+  "name": "statusquo",
+  "short_name": "statusquo",
+  "description": "Every status page you depend on, on one page",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#12130f",
+  "theme_color": "#12130f",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
