@@ -1,28 +1,9 @@
 @import '@fontsource-variable/archivo';
 @import '@fontsource-variable/jetbrains-mono';
+@import './themes.css';
 
 :root {
   color-scheme: dark light;
-
-  --surface: light-dark(#f4f1e8, #12130f);
-  --surface-raised: light-dark(#fbf9f3, #1a1b16);
-  --surface-sunk: light-dark(#e8e3d4, #0b0c09);
-  --text: light-dark(#1a1a14, #ece8dc);
-  --text-muted: light-dark(#5a5648, #9c9784);
-  --text-faint: light-dark(#6e6858, #8d8775);
-  --rule: light-dark(#d8d2c0, #2b2c24);
-  --rule-strong: light-dark(#928b75, #63624f);
-  --grid: light-dark(#e4dfcd, #1e1f19);
-  --accent: light-dark(#8a3d12, #e8935a);
-  --accent-quiet: light-dark(#f0e3d5, #2a2018);
-  --focus: light-dark(#8a3d12, #e8935a);
-
-  --level-operational: light-dark(#2c6344, #74c095);
-  --level-unknown: light-dark(#6a6558, #9a9484);
-  --level-maintenance: light-dark(#27548a, #82b4e8);
-  --level-degraded: light-dark(#7d5a0d, #dcb04e);
-  --level-partial: light-dark(#9b4a15, #f0a066);
-  --level-major: light-dark(#9c261e, #f4867c);
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -44,11 +25,11 @@
   --step: 200ms;
 }
 
-:root[data-theme='light'] {
+:root[data-mode='light'] {
   color-scheme: light;
 }
 
-:root[data-theme='dark'] {
+:root[data-mode='dark'] {
   color-scheme: dark;
 }
 
@@ -75,11 +56,8 @@ body {
   accent-color: var(--accent);
   caret-color: var(--accent);
 
-  /* the plotting-paper grid, 5mm squares, sitting under everything */
-  background-image:
-    linear-gradient(to right, var(--grid) var(--hairline), transparent var(--hairline)),
-    linear-gradient(to bottom, var(--grid) var(--hairline), transparent var(--hairline));
-  background-size: 1.25rem 1.25rem;
+  background-image: var(--backdrop);
+  background-size: var(--backdrop-size);
 }
 
 ::selection {
@@ -166,6 +144,7 @@ select {
   transform: translate(-50%, calc(-100% - var(--space-2)));
   padding: var(--space-2) var(--space-3);
   max-inline-size: 20rem;
+  border-radius: var(--radius);
   background: var(--text);
   color: var(--surface);
   font-size: 0.78rem;

@@ -61,6 +61,7 @@
     font-size: 0.78rem;
     padding: 2px var(--space-2);
     border: var(--hairline) solid var(--rule-strong);
+    border-radius: var(--radius);
     color: var(--text-muted);
   }
 

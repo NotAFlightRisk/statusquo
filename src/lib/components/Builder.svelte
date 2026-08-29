@@ -164,6 +164,7 @@
   .problem {
     padding: var(--space-3) var(--space-4);
     border: var(--hairline) solid var(--level-partial);
+    border-radius: var(--radius);
     color: var(--level-partial);
     font-size: 0.9rem;
   }
@@ -185,6 +186,8 @@
     padding: var(--space-3);
     background: var(--surface-raised);
     border: var(--hairline) solid var(--rule-strong);
+    border-radius: var(--radius);
+    backdrop-filter: var(--blur);
 
     &::placeholder {
       color: var(--text-faint);
@@ -206,6 +209,8 @@
     padding-inline: var(--space-4);
     background: var(--surface-raised);
     border: var(--hairline) solid var(--rule-strong);
+    border-radius: var(--radius);
+    backdrop-filter: var(--blur);
     color: var(--text);
     cursor: pointer;
 
