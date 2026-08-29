@@ -1,7 +1,7 @@
 <script lang="ts">
   import ServiceIcon from './ServiceIcon.svelte';
   import { CATALOGUE } from '$lib/catalogue';
-  import { MAX_SERVICES } from '$lib/token';
+  import { MAX_SERVICES, normaliseUrl, tokenFor } from '$lib/token';
   import { stationCode } from '$lib/format';
 
   interface Props {
@@ -13,6 +13,8 @@
 
   let filter = $state('');
   let picked = $state<string[]>([]);
+  let pasted = $state<string[]>([]);
+  let typed = $state('');
 
   let shown = $derived(
     CATALOGUE.filter((entry) => entry.name.toLowerCase().includes(filter.trim().toLowerCase()))
@@ -20,10 +22,25 @@
   let sections = $derived(
     [...Map.groupBy(shown, (entry) => entry.group)].map(([group, entries]) => ({ group, entries }))
   );
-  let full = $derived(picked.length >= MAX_SERVICES);
+  // Tokens, not URLs - pasting a service you already ticked is the same service.
+  let taken = $derived(new Set([...picked, ...pasted.map((url) => tokenFor(url) ?? url)]));
+  let locked = $derived(taken.size >= MAX_SERVICES);
+  let typedUrl = $derived(normaliseUrl(typed));
+  /** An address left in the box still gets submitted, as long as it is new and there is room. */
+  let carried = $derived(
+    typedUrl && !locked && !taken.has(tokenFor(typedUrl) ?? typedUrl) ? typedUrl : null
+  );
+  let chosen = $derived(taken.size + (carried ? 1 : 0));
+  let full = $derived(chosen >= MAX_SERVICES);
 
   function toggle(slug: string, on: boolean) {
     picked = on ? [...picked, slug] : picked.filter((one) => one !== slug);
+  }
+
+  function add() {
+    if (!carried) return;
+    pasted = [...pasted, carried];
+    typed = '';
   }
 </script>
 
@@ -46,11 +63,42 @@
       <input type="search" bind:value={filter} placeholder="cloudflare, npm, stripe…" />
     </label>
 
-    <label class="field">
-      <span class="stamp">Or paste a status page</span>
-      <input type="url" name="page" placeholder="https://status.example.com" />
-    </label>
+    <div class="field">
+      <label class="stamp" for="paste">Or paste a status page</label>
+      <div class="paste">
+        <input
+          id="paste"
+          type="text"
+          inputmode="url"
+          bind:value={typed}
+          placeholder="https://status.example.com"
+          onkeydown={(event) => {
+            if (event.key !== 'Enter' || !typed.trim()) return;
+            event.preventDefault();
+            add();
+          }}
+        />
+        <button type="button" class="add" onclick={add} disabled={!carried}>Add</button>
+      </div>
+    </div>
   </div>
+
+  {#if pasted.length}
+    <ul class="pasted">
+      {#each pasted as url (url)}
+        <li>
+          <input type="hidden" name="page" value={url} />
+          <span class="mono">{url.replace(/^https?:\/\//, '')}</span>
+          <button
+            type="button"
+            class="drop"
+            aria-label="Remove {url}"
+            onclick={() => (pasted = pasted.filter((one) => one !== url))}>&times;</button
+          >
+        </li>
+      {/each}
+    </ul>
+  {/if}
 
   <div class="index">
     <p class="stamp">Station index · {CATALOGUE.length} confirmed answering</p>
@@ -85,10 +133,14 @@
     {/each}
   </div>
 
+  {#if carried}
+    <input type="hidden" name="page" value={carried} />
+  {/if}
+
   <div class="go">
     <button type="submit">Build the board</button>
     <p class="stamp">
-      {picked.length} of {MAX_SERVICES} picked{full ? ' · that is the lot' : ''}
+      {chosen} of {MAX_SERVICES} picked{full ? ' · that is the lot' : ''}
     </p>
   </div>
 </form>
@@ -129,13 +181,75 @@
   }
 
   input[type='search'],
-  input[type='url'] {
+  #paste {
     padding: var(--space-3);
     background: var(--surface-raised);
     border: var(--hairline) solid var(--rule-strong);
 
     &::placeholder {
       color: var(--text-faint);
+    }
+  }
+
+  .paste {
+    display: flex;
+    gap: var(--space-2);
+
+    & input {
+      flex: 1 1 auto;
+      min-inline-size: 0;
+    }
+  }
+
+  .add {
+    flex: none;
+    padding-inline: var(--space-4);
+    background: var(--surface-raised);
+    border: var(--hairline) solid var(--rule-strong);
+    color: var(--text);
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background: var(--accent-quiet);
+      border-color: var(--accent);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+  }
+
+  .pasted {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & li {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-1) var(--space-2);
+      background: var(--accent-quiet);
+      border: var(--hairline) solid var(--accent);
+      font-size: 0.82rem;
+    }
+  }
+
+  .drop {
+    padding: 0 var(--space-1);
+    background: none;
+    border: 0;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--text);
     }
   }
 
@@ -225,7 +339,7 @@
     border-block-start: var(--hairline) solid var(--rule);
   }
 
-  button {
+  .go button {
     padding: var(--space-3) var(--space-5);
     background: var(--text);
     color: var(--surface);

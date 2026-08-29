@@ -1,5 +1,6 @@
 <script lang="ts">
   import { minutesLabel } from '$lib/format';
+  import { tooltip } from '$lib/tooltip';
   import type { ServiceStats } from '$lib/stats';
 
   let { rows }: { rows: ServiceStats[] } = $props();
@@ -15,7 +16,7 @@
 {#if timed.length}
   <ul class="times">
     {#each timed as row (row.service.token)}
-      <li>
+      <li use:tooltip={`${row.service.name} · ${minutesLabel(row.mttrMinutes)} to fix, on average`}>
         <span class="name">{row.service.name}</span>
         <span class="track">
           <span class="fill" style:inline-size="{(row.mttrMinutes / slowest) * 100}%"></span>

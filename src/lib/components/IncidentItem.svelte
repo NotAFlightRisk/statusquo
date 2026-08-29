@@ -39,7 +39,7 @@
 
   <h3>
     {#if incident.url}
-      <a href={incident.url} rel="noreferrer">{incident.title}</a>
+      <a href={incident.url} target="_blank" rel="noreferrer">{incident.title}</a>
     {:else}
       {incident.title}
     {/if}

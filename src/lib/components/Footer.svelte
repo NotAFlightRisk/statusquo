@@ -17,9 +17,9 @@
 
 <footer class="site">
   <p class="legal">
-    Licensed under <a href="{REPO}/blob/main/LICENSE">MIT</a> © {year}
+    Licensed under <a href="{REPO}/blob/main/LICENSE" target="_blank" rel="noreferrer">MIT</a> © {year}
     <span class="dot" aria-hidden="true">•</span>
-    <a href={REPO}>Source on GitHub</a>
+    <a href={REPO} target="_blank" rel="noreferrer">Source on GitHub</a>
   </p>
 
   <p class="docs">
@@ -44,8 +44,8 @@
     </p>
     <p>
       No database to set up, because there isn't one. The
-      <a href="{REPO}#configuration">readme</a> lists the rest of the settings, plus Cloudflare, Vercel
-      and building from source.
+      <a href="{REPO}#configuration" target="_blank" rel="noreferrer">readme</a> lists the rest of the
+      settings, plus Cloudflare, Vercel and building from source.
     </p>
   {:else if panel === 'Privacy'}
     <p>
@@ -58,7 +58,10 @@
     </p>
   {:else if panel === 'Terms'}
     <p>
-      Free for anything, work included, under the <a href="{REPO}/blob/main/LICENSE">MIT licence</a
+      Free for anything, work included, under the <a
+        href="{REPO}/blob/main/LICENSE"
+        target="_blank"
+        rel="noreferrer">MIT licence</a
       >. No warranty: it's a mirror of what other people publish, so don't hang a pager off it.
     </p>
     <p>
