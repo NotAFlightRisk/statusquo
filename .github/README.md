@@ -44,6 +44,11 @@ configuration, so you can edit it by hand.
 Each board gives you the live network view, the full incident history with filters, the
 maintenance calendar, and per-service pages with components and update threads.
 
+Eight themes ship with it, and the one you're on rides along in the URL as `?theme=nord`, so a
+board you hand someone turns up looking the way you left it. Pick one from the `...` button in the
+header; it's remembered for next time. Light and dark are a separate switch, and both follow your
+system until you tell them not to.
+
 ---
 
 ## Deployment

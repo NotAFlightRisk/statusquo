@@ -8,8 +8,20 @@
     <meta name="theme-color" content="#14140f" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#f5f2ea" media="(prefers-color-scheme: light)" />
     <script>
-      const stored = localStorage.getItem('statusquo-theme');
-      if (stored) document.documentElement.dataset.theme = stored;
+      // both are set before first paint, so a shared or saved look never flashes
+      const el = document.documentElement;
+      // this key held light/dark before themes existed, so move an old one across
+      const was = localStorage.getItem('statusquo-theme');
+      if (was === 'light' || was === 'dark') {
+        localStorage.setItem('statusquo-mode', was);
+        localStorage.removeItem('statusquo-theme');
+      }
+      const mode = localStorage.getItem('statusquo-mode');
+      if (mode) el.dataset.mode = mode;
+      const theme =
+        new URLSearchParams(location.search).get('theme') ??
+        localStorage.getItem('statusquo-theme');
+      if (theme) el.dataset.theme = theme;
     </script>
     %sveltekit.head%
   </head>

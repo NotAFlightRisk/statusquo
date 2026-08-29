@@ -1,4 +1,6 @@
 <script lang="ts">
+  const MODE_KEY = 'statusquo-mode';
+
   const MODES = [
     { value: 'light', label: 'Light' },
     { value: 'dark', label: 'Dark' },
@@ -8,23 +10,23 @@
   let mode = $state<string>('system');
 
   $effect(() => {
-    mode = localStorage.getItem('statusquo-theme') ?? 'system';
+    mode = localStorage.getItem(MODE_KEY) ?? 'system';
   });
 
   function pick(value: string) {
     mode = value;
     if (value === 'system') {
-      delete document.documentElement.dataset.theme;
-      localStorage.removeItem('statusquo-theme');
+      delete document.documentElement.dataset.mode;
+      localStorage.removeItem(MODE_KEY);
     } else {
-      document.documentElement.dataset.theme = value;
-      localStorage.setItem('statusquo-theme', value);
+      document.documentElement.dataset.mode = value;
+      localStorage.setItem(MODE_KEY, value);
     }
   }
 </script>
 
 <fieldset class="toggle">
-  <legend class="sr-only">Colour theme</legend>
+  <legend class="sr-only">Light or dark</legend>
   {#each MODES as option (option.value)}
     <label class="stamp">
       <input
@@ -45,6 +47,7 @@
     margin: 0;
     padding: 0;
     border: var(--hairline) solid var(--rule);
+    border-radius: var(--radius);
   }
 
   label {

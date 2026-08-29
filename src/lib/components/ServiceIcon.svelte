@@ -50,5 +50,6 @@
     color: var(--text-faint);
     background: var(--surface-sunk);
     border: var(--hairline) solid var(--rule);
+    border-radius: var(--radius);
   }
 </style>

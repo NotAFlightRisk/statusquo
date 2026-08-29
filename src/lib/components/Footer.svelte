@@ -111,6 +111,9 @@
     max-width: min(38rem, calc(100vw - 2 * var(--space-4)));
     padding: var(--space-5);
     background: var(--surface-raised);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    backdrop-filter: var(--blur);
     color: var(--text);
     border: var(--hairline) solid var(--rule-strong);
 
@@ -129,6 +132,7 @@
   .run {
     padding: var(--space-3);
     background: var(--surface-sunk);
+    border-radius: var(--radius);
     overflow-x: auto;
 
     & code {

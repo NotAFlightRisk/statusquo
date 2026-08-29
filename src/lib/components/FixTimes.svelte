@@ -58,6 +58,7 @@
     display: block;
     block-size: 0.55rem;
     background: var(--surface-sunk);
+    border-radius: var(--radius);
   }
 
   .fill {

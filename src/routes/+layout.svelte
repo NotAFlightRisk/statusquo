@@ -2,6 +2,7 @@
   import '../app.css';
   import Footer from '$lib/components/Footer.svelte';
   import Loading from '$lib/components/Loading.svelte';
+  import ThemePicker from '$lib/components/ThemePicker.svelte';
   import ThemeToggle from '$lib/components/ThemeToggle.svelte';
   import Wordmark from '$lib/components/Wordmark.svelte';
 
@@ -15,7 +16,10 @@
 <header class="site">
   <div class="page bar">
     <a class="home" href="/"><Wordmark title={data.site.title} /></a>
-    <ThemeToggle />
+    <div class="looks">
+      <ThemeToggle />
+      <ThemePicker />
+    </div>
   </div>
 </header>
 
@@ -35,6 +39,7 @@
     padding: var(--space-2) var(--space-3);
     background: var(--surface-raised);
     border: var(--hairline) solid var(--rule-strong);
+    border-radius: var(--radius);
     transform: translateY(-200%);
 
     &:focus {
@@ -61,6 +66,12 @@
 
   .home {
     text-decoration: none;
+  }
+
+  .looks {
+    display: flex;
+    align-items: stretch;
+    gap: var(--space-2);
   }
 
   main {

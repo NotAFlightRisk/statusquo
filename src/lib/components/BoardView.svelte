@@ -90,6 +90,12 @@
 <style>
   section {
     padding-block-start: var(--space-6);
+    padding-inline: var(--panel-pad);
+    padding-block-end: var(--panel-pad);
+    background: var(--panel);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    backdrop-filter: var(--blur);
   }
 
   .head {

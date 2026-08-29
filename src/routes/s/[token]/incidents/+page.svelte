@@ -102,6 +102,7 @@
     & a {
       padding: var(--space-2) var(--space-3);
       border: var(--hairline) solid var(--rule);
+      border-radius: var(--radius);
       color: var(--text-muted);
       font-family: var(--font-mono);
       font-size: 0.7rem;
