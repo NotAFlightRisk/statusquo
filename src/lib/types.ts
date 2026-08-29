@@ -70,6 +70,7 @@ export interface CatalogueEntry {
   name: string;
   url: string;
   site: string;
+  group: string;
   provider: string;
 }
 
