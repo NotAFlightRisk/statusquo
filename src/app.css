@@ -13,13 +13,11 @@
   --space-6: 2rem;
   --space-7: 3rem;
   --space-8: 4.5rem;
+  --inset: clamp(var(--space-4), 4vw, var(--space-6));
 
   --measure: 68ch;
   --page: 78rem;
   --hairline: 1px;
-
-  --font-body: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --step: 200ms;
@@ -56,8 +54,9 @@ body {
   accent-color: var(--accent);
   caret-color: var(--accent);
 
-  background-image: var(--backdrop);
-  background-size: var(--backdrop-size);
+  background-image: var(--paper);
+  background-size: var(--paper-size);
+  background-attachment: var(--paper-attach);
 }
 
 ::selection {
@@ -136,6 +135,34 @@ select {
   max-width: var(--page);
   margin-inline: auto;
   padding-inline: var(--space-4);
+}
+
+/* Every block of the report sits in one of these. A theme decides what it is made of. */
+.panel {
+  padding: var(--panel-inset);
+  background: var(--panel-fill);
+  border: var(--panel-edge);
+  border-radius: var(--radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: var(--panel-blur);
+}
+
+/* the ruled line a panel opens with, whether or not it carries a second item */
+.panel > :is(h2, .head) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+  margin-block-end: var(--space-4);
+  padding-block-end: var(--space-3);
+  border-block-end: var(--hairline) solid var(--rule-strong);
+}
+
+/* the caption drops below the heading rather than squeezing it */
+.panel > .head > * {
+  flex: 0 0 auto;
+  max-inline-size: 100%;
 }
 
 .tooltip {

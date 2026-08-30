@@ -1,8 +1,7 @@
-/* Each block is one theme: same variable names, different values. The `.theme-swatch` half of the
-   selector is what lets the theme picker paint a live preview of a theme it isn't wearing. */
-
+/* The floor: the plain instrument, plus a neutral default for every knob a theme may reach for.
+   Anything a theme sets must be reset here, or the theme before it leaks through. */
 :root,
-:is(:root, .theme-swatch)[data-theme='plotting'] {
+.theme-swatch {
   --surface: light-dark(#f4f1e8, #12130f);
   --surface-raised: light-dark(#fbf9f3, #1a1b16);
   --surface-sunk: light-dark(#e8e3d4, #0b0c09);
@@ -11,7 +10,6 @@
   --text-faint: light-dark(#6e6858, #8d8775);
   --rule: light-dark(#d8d2c0, #2b2c24);
   --rule-strong: light-dark(#928b75, #63624f);
-  --grid: light-dark(#e4dfcd, #1e1f19);
   --accent: light-dark(#8a3d12, #e8935a);
   --accent-quiet: light-dark(#f0e3d5, #2a2018);
   --focus: light-dark(#8a3d12, #e8935a);
@@ -23,51 +21,67 @@
   --level-partial: light-dark(#9b4a15, #f0a066);
   --level-major: light-dark(#9c261e, #f4867c);
 
-  /* the surface knobs - a theme overrides what it needs and inherits the rest */
-  --panel: transparent;
-  --panel-pad: 0;
+  --font-body: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+
+  --paper: none;
+  --paper-size: auto;
+  --paper-attach: scroll;
+
+  --panel-fill: transparent;
+  --panel-edge: 0 solid transparent;
+  --panel-inset: 0;
+  --panel-shadow: none;
+  --panel-blur: none;
   --radius: 0;
-  --shadow: none;
-  --blur: none;
-  --mark-trace: block;
-  --mark-glyph: none;
-
-  /* the plotting-paper grid, 5mm squares, sitting under everything */
-  --backdrop:
-    linear-gradient(to right, var(--grid) var(--hairline), transparent var(--hairline)),
-    linear-gradient(to bottom, var(--grid) var(--hairline), transparent var(--hairline));
-  --backdrop-size: 1.25rem 1.25rem;
 }
 
-:is(:root, .theme-swatch)[data-theme='catppuccin'] {
-  --surface: light-dark(#eff1f5, #1e1e2e);
-  --surface-raised: light-dark(#ffffff, #313244);
-  --surface-sunk: light-dark(#dce0e8, #181825);
+/* Plotting paper: 5mm squares under a flat page, which is the floor palette already. */
+[data-theme='plotting'] {
+  --paper:
+    linear-gradient(
+      to right,
+      light-dark(#e4dfcd, #1e1f19) var(--hairline),
+      transparent var(--hairline)
+    ),
+    linear-gradient(
+      to bottom,
+      light-dark(#e4dfcd, #1e1f19) var(--hairline),
+      transparent var(--hairline)
+    );
+  --paper-size: 1.25rem 1.25rem;
+}
+
+/* Catppuccin Latte and Mocha, with the accents that carry text pulled down to a readable
+   lightness. Soft rounded panes, no elevation. */
+[data-theme='catppuccin'] {
+  --surface: light-dark(#e6e9ef, #1e1e2e);
+  --surface-raised: light-dark(#eff1f5, #313244);
+  --surface-sunk: light-dark(#ccd0da, #11111b);
   --text: light-dark(#4c4f69, #cdd6f4);
-  --text-muted: light-dark(#5c5f77, #a6adc8);
-  --text-faint: light-dark(#61647a, #a4aac1);
-  --rule: light-dark(#ccd0da, #313244);
-  --rule-strong: light-dark(#8c8fa1, #585b70);
-  --grid: light-dark(#e6e9ef, #26263a);
-  --accent: light-dark(#7a29d9, #cba6f7);
-  --accent-quiet: light-dark(#e9dcfb, #302640);
-  --focus: light-dark(#7a29d9, #cba6f7);
+  --text-muted: light-dark(#5c5f77, #bac2de);
+  --text-faint: light-dark(#575a6e, #a6adc8);
+  --rule: light-dark(#ccd0da, #45475a);
+  --rule-strong: light-dark(#9ca0b0, #7f849c);
+  --accent: light-dark(#7a24d4, #cba6f7);
+  --accent-quiet: light-dark(#e4dcf4, #3a2f4d);
+  --focus: light-dark(#7a24d4, #cba6f7);
 
-  --level-operational: light-dark(#2e7d1b, #a6e3a1);
-  --level-unknown: light-dark(#62657a, #a4aac1);
-  --level-maintenance: light-dark(#1550c4, #89b4fa);
-  --level-degraded: light-dark(#8a5a06, #f9e2af);
-  --level-partial: light-dark(#b8480a, #fab387);
-  --level-major: light-dark(#b00c30, #f38ba8);
+  --level-operational: light-dark(#276418, #a6e3a1);
+  --level-unknown: light-dark(#5a5d70, #a0a6bd);
+  --level-maintenance: light-dark(#1a4fc4, #89b4fa);
+  --level-degraded: light-dark(#8a5600, #f9e2af);
+  --level-partial: light-dark(#9c3c00, #fab387);
+  --level-major: light-dark(#c00c33, #f38ba8);
 
-  --radius: 8px;
-  --panel: var(--surface-raised);
-  --panel-pad: var(--space-4);
-  --mark-trace: none;
-  --mark-glyph: block;
+  --panel-fill: var(--surface-raised);
+  --panel-edge: var(--hairline) solid var(--rule);
+  --panel-inset: var(--inset);
+  --radius: 12px;
 }
 
-:is(:root, .theme-swatch)[data-theme='material'] {
+/* Material 3: tonal surfaces, large corners, a real elevation shadow. */
+[data-theme='material'] {
   --surface: light-dark(#fef7ff, #141218);
   --surface-raised: light-dark(#f3edf7, #211f26);
   --surface-sunk: light-dark(#ece6f0, #2b2930);
@@ -76,7 +90,6 @@
   --text-faint: light-dark(#5d5867, #a9a3b3);
   --rule: light-dark(#cac4d0, #49454f);
   --rule-strong: light-dark(#79747e, #938f99);
-  --grid: transparent;
   --accent: light-dark(#6750a4, #d0bcff);
   --accent-quiet: light-dark(#eaddff, #4f378b);
   --focus: light-dark(#6750a4, #d0bcff);
@@ -88,142 +101,149 @@
   --level-partial: light-dark(#a63f00, #ffb787);
   --level-major: light-dark(#b3261e, #f2b8b5);
 
-  --radius: 14px;
-  --shadow: 0 1px 3px light-dark(rgb(0 0 0 / 0.16), rgb(0 0 0 / 0.5));
-  --panel: var(--surface-raised);
-  --panel-pad: var(--space-4);
-  --mark-trace: none;
-  --mark-glyph: block;
+  --panel-fill: var(--surface-raised);
+  --panel-inset: var(--inset);
+  --panel-shadow:
+    0 1px 2px light-dark(rgb(0 0 0 / 0.3), rgb(0 0 0 / 0.6)),
+    0 4px 10px -2px light-dark(rgb(0 0 0 / 0.15), rgb(0 0 0 / 0.45));
+  --radius: 20px;
 }
 
-:is(:root, .theme-swatch)[data-theme='glass'] {
-  --surface: light-dark(#eef1fa, #0d1220);
-  --surface-raised: light-dark(#ffffff70, #ffffff12);
-  --surface-sunk: light-dark(#ffffffa8, #ffffff1c);
-  --text: light-dark(#141a2b, #eaeefb);
-  --text-muted: light-dark(#414a63, #b3bdd6);
-  --text-faint: light-dark(#555f78, #9aa4bf);
-  --rule: light-dark(#ffffff9c, #ffffff26);
-  --rule-strong: light-dark(#7d87a3, #ffffff5c);
-  --grid: transparent;
-  --accent: light-dark(#0f5fa8, #8fd0ff);
-  --accent-quiet: light-dark(#d6e8fa, #1d3350);
-  --focus: light-dark(#0f5fa8, #8fd0ff);
+/* Frosted panes over a colour field. The field is fixed, so it stays behind the glass
+   rather than stretching down a long page. */
+[data-theme='glass'] {
+  --surface: light-dark(#e9eefb, #070a16);
+  --surface-raised: light-dark(#ffffff8f, #090d1c9e);
+  --surface-sunk: light-dark(#ffffff59, #05070f8f);
+  --text: light-dark(#0f1626, #eef1fc);
+  --text-muted: light-dark(#39425c, #c3cbe4);
+  --text-faint: light-dark(#4a5471, #a7b1cd);
+  --rule: light-dark(#ffffffb8, #ffffff26);
+  --rule-strong: light-dark(#6c7896, #ffffff5e);
+  --accent: light-dark(#0b4f9e, #9cd4ff);
+  --accent-quiet: light-dark(#ffffffa6, #ffffff1f);
+  --focus: light-dark(#0b4f9e, #9cd4ff);
 
-  --level-operational: light-dark(#0f6b45, #7ce0b4);
-  --level-unknown: light-dark(#55607a, #a9b3cc);
-  --level-maintenance: light-dark(#1257ad, #8fc4ff);
-  --level-degraded: light-dark(#7d5800, #ffd57a);
-  --level-partial: light-dark(#a34400, #ffab74);
-  --level-major: light-dark(#a51f2c, #ff9aa4);
+  --level-operational: light-dark(#0a5c3b, #7fe6bb);
+  --level-unknown: light-dark(#4b5570, #aab4ce);
+  --level-maintenance: light-dark(#0d4f9c, #97c8ff);
+  --level-degraded: light-dark(#6f4d00, #ffd77e);
+  --level-partial: light-dark(#93390b, #ffae78);
+  --level-major: light-dark(#9b1b2c, #ff9aa6);
 
-  --radius: 16px;
-  --blur: blur(14px) saturate(1.3);
-  --shadow: 0 8px 30px light-dark(rgb(31 45 84 / 0.13), rgb(0 0 0 / 0.45));
-  --backdrop:
-    radial-gradient(60rem 40rem at 12% -10%, light-dark(#b9d4ff, #1d3a6e), transparent 60%),
-    radial-gradient(50rem 36rem at 88% 8%, light-dark(#f6ccea, #4a2a5e), transparent 62%),
-    radial-gradient(46rem 34rem at 50% 108%, light-dark(#c8f2e4, #123f45), transparent 60%);
-  --backdrop-size: cover;
-  --panel: var(--surface-raised);
-  --panel-pad: var(--space-4);
-  --mark-trace: none;
-  --mark-glyph: block;
+  --paper:
+    radial-gradient(70rem 44rem at 6% -14%, light-dark(#9dc2ff, #2b4bd0) 0%, transparent 58%),
+    radial-gradient(56rem 40rem at 94% 2%, light-dark(#ffc0e6, #8a2fa8) 0%, transparent 56%),
+    radial-gradient(62rem 46rem at 46% 106%, light-dark(#9eeeda, #0b7d84) 0%, transparent 58%);
+  --paper-size: cover;
+  --paper-attach: fixed;
+
+  --panel-fill: var(--surface-raised);
+  --panel-edge: var(--hairline) solid light-dark(#ffffffcc, #ffffff2b);
+  --panel-inset: var(--inset);
+  --panel-blur: blur(24px) saturate(180%);
+  --panel-shadow:
+    0 14px 40px -14px light-dark(rgb(24 38 84 / 0.34), rgb(0 0 0 / 0.7)),
+    inset 0 1px 0 light-dark(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.18));
+  --radius: 18px;
 }
 
-:is(:root, .theme-swatch)[data-theme='nord'] {
-  --surface: light-dark(#eceff4, #2e3440);
-  --surface-raised: light-dark(#ffffff, #3b4252);
-  --surface-sunk: light-dark(#e5e9f0, #272c36);
+/* Nord: Polar Night and Snow Storm, Aurora for the levels. Square panes, hairline edges. */
+[data-theme='nord'] {
+  --surface: light-dark(#e5e9f0, #2e3440);
+  --surface-raised: light-dark(#eceff4, #3b4252);
+  --surface-sunk: light-dark(#d8dee9, #272c36);
   --text: light-dark(#2e3440, #eceff4);
-  --text-muted: light-dark(#4c566a, #c4cddb);
-  --text-faint: light-dark(#5d6b81, #9aa6ba);
-  --rule: light-dark(#d8dee9, #3f4859);
-  --rule-strong: light-dark(#8593a8, #566072);
-  --grid: light-dark(#e2e7ef, #333a47);
-  --accent: light-dark(#4a6f9c, #88c0d0);
-  --accent-quiet: light-dark(#dde5ef, #34404f);
-  --focus: light-dark(#4a6f9c, #88c0d0);
+  --text-muted: light-dark(#434c5e, #d8dee9);
+  --text-faint: light-dark(#556074, #b4bed0);
+  --rule: light-dark(#d8dee9, #434c5e);
+  --rule-strong: light-dark(#8a95a8, #5e6a80);
+  --accent: light-dark(#42688f, #88c0d0);
+  --accent-quiet: light-dark(#dbe3ee, #3a4757);
+  --focus: light-dark(#42688f, #88c0d0);
 
-  --level-operational: light-dark(#3d6a32, #a3be8c);
-  --level-unknown: light-dark(#4c566a, #98a5b8);
-  --level-maintenance: light-dark(#4a6f9c, #81a1c1);
-  --level-degraded: light-dark(#785a12, #ebcb8b);
-  --level-partial: light-dark(#8f4527, #dc9b86);
-  --level-major: light-dark(#9c3d46, #e08b93);
+  --level-operational: light-dark(#4c7038, #a3be8c);
+  --level-unknown: light-dark(#5b6478, #a9b3c4);
+  --level-maintenance: light-dark(#456287, #9dbada);
+  --level-degraded: light-dark(#7a5c12, #ebcb8b);
+  --level-partial: light-dark(#7d4025, #e5a08a);
+  --level-major: light-dark(#a04049, #eda6ad);
 
-  --radius: 4px;
+  --panel-fill: var(--surface-raised);
+  --panel-edge: var(--hairline) solid var(--rule);
+  --panel-inset: var(--inset);
 }
 
-:is(:root, .theme-swatch)[data-theme='solarized'] {
+/* Solarized, both bases. The panes are recessed rather than raised, which is the way
+   this palette was always meant to stack. */
+[data-theme='solarized'] {
   --surface: light-dark(#fdf6e3, #002b36);
-  --surface-raised: light-dark(#fffcf2, #073642);
-  --surface-sunk: light-dark(#eee8d5, #00212b);
+  --surface-raised: light-dark(#eee8d5, #073642);
+  --surface-sunk: light-dark(#eee8d5, #073642);
   --text: light-dark(#073642, #eee8d5);
-  --text-muted: light-dark(#5b7178, #93a1a1);
-  --text-faint: light-dark(#556a71, #839496);
-  --rule: light-dark(#e6dfc8, #0d3b47);
-  --rule-strong: light-dark(#93a1a1, #586e75);
-  --grid: light-dark(#efe9d4, #04323d);
-  --accent: light-dark(#1a6fa8, #2aa198);
-  --accent-quiet: light-dark(#e3e9e0, #04323d);
-  --focus: light-dark(#1a6fa8, #2aa198);
+  --text-muted: light-dark(#48626a, #a3b0b0);
+  --text-faint: light-dark(#4f6a72, #93a1a1);
+  --rule: light-dark(#e3dcc6, #0d3b47);
+  --rule-strong: light-dark(#a6a390, #4a6068);
+  --accent: light-dark(#1a6a9e, #38b5ab);
+  --accent-quiet: light-dark(#e6e5d4, #04323d);
+  --focus: light-dark(#1a6a9e, #38b5ab);
 
-  --level-operational: light-dark(#5c7000, #859900);
-  --level-unknown: light-dark(#586f77, #93a1a1);
-  --level-maintenance: light-dark(#1a6fa8, #4fa3dd);
-  --level-degraded: light-dark(#7d5e00, #b58900);
-  --level-partial: light-dark(#b3400f, #e8703a);
-  --level-major: light-dark(#c11f1d, #f0625f);
+  --level-operational: light-dark(#5c7000, #9bb000);
+  --level-unknown: light-dark(#4c646c, #a3b0b0);
+  --level-maintenance: light-dark(#175f93, #4fa3dd);
+  --level-degraded: light-dark(#7a5c00, #cb9d0e);
+  --level-partial: light-dark(#b0400f, #f0855a);
+  --level-major: light-dark(#c11f1d, #f5807d);
+
+  --panel-fill: var(--surface-sunk);
+  --panel-inset: var(--inset);
 }
 
-:is(:root, .theme-swatch)[data-theme='terminal'] {
-  --surface: light-dark(#f2f6f0, #04120a);
-  --surface-raised: light-dark(#ffffff, #0a1c12);
-  --surface-sunk: light-dark(#e6ece3, #010a06);
-  --text: light-dark(#0a2414, #b8f5c8);
-  --text-muted: light-dark(#35573f, #6fbf87);
-  --text-faint: light-dark(#4a6b53, #57a06d);
-  --rule: light-dark(#d3ddd0, #143523);
-  --rule-strong: light-dark(#7c9584, #2c6b45);
-  --grid: light-dark(#e8efe6, #0b2114);
+/* Phosphor on a dark tube. Monospaced throughout. */
+[data-theme='terminal'] {
+  --surface: light-dark(#eef3ee, #05100b);
+  --surface-raised: light-dark(#f8fbf8, #0b1e13);
+  --surface-sunk: light-dark(#e2eae2, #020806);
+  --text: light-dark(#06301a, #b7f5c4);
+  --text-muted: light-dark(#2f5a3e, #71c98a);
+  --text-faint: light-dark(#456d52, #5fae76);
+  --rule: light-dark(#d2ded4, #15361f);
+  --rule-strong: light-dark(#7a9483, #2e6b45);
   --accent: light-dark(#0a6b39, #4dff9b);
   --accent-quiet: light-dark(#dcefe2, #0d2e1c);
   --focus: light-dark(#0a6b39, #4dff9b);
 
   --level-operational: light-dark(#0a6b39, #4dff9b);
-  --level-unknown: light-dark(#3d6b4d, #6fbf87);
+  --level-unknown: light-dark(#456d52, #7fbb92);
   --level-maintenance: light-dark(#0a5f8a, #57d3ff);
-  --level-degraded: light-dark(#7a5a00, #ffd24d);
-  --level-partial: light-dark(#9c4600, #ff9f4d);
-  --level-major: light-dark(#a81225, #ff5f6b);
+  --level-degraded: light-dark(#78591b, #ffd24d);
+  --level-partial: light-dark(#9a4600, #ff9f4d);
+  --level-major: light-dark(#a81225, #ff7b85);
 
   --font-body: var(--font-mono);
 }
 
-:is(:root, .theme-swatch)[data-theme='newsprint'] {
-  --surface: light-dark(#f6f1e6, #17150f);
-  --surface-raised: light-dark(#fffdf7, #201d16);
-  --surface-sunk: light-dark(#eae3d3, #0f0e0a);
-  --text: light-dark(#1c1a16, #ece4d4);
-  --text-muted: light-dark(#56514a, #a49b89);
-  --text-faint: light-dark(#6d675e, #8d8474);
-  --rule: light-dark(#ddd5c4, #2b271e);
-  --rule-strong: light-dark(#8f877a, #61594a);
-  --grid: light-dark(#e7e0d0, #221f18);
-  --accent: light-dark(#7a1f12, #e08a6f);
-  --accent-quiet: light-dark(#f0e2d8, #2e241d);
-  --focus: light-dark(#7a1f12, #e08a6f);
+/* Newsprint: grey stock, black ink, a press-red accent and a serif face. */
+[data-theme='newsprint'] {
+  --surface: light-dark(#f1eee7, #16150f);
+  --surface-raised: light-dark(#f8f6f1, #1f1d16);
+  --surface-sunk: light-dark(#e4e0d6, #0e0d09);
+  --text: light-dark(#14120f, #ece5d6);
+  --text-muted: light-dark(#4f4a43, #a9a08d);
+  --text-faint: light-dark(#655f56, #918875);
+  --rule: light-dark(#dbd6c9, #2a2720);
+  --rule-strong: light-dark(#8b8478, #5f584a);
+  --accent: light-dark(#9c1f10, #e58a72);
+  --accent-quiet: light-dark(#efe2dc, #2e231d);
+  --focus: light-dark(#9c1f10, #e58a72);
 
-  --level-operational: light-dark(#2f6a3e, #8fc79c);
-  --level-unknown: light-dark(#6d675e, #a49b89);
-  --level-maintenance: light-dark(#2a5580, #8fb6dc);
-  --level-degraded: light-dark(#7d5b12, #d9b268);
-  --level-partial: light-dark(#9a4a15, #e6a071);
-  --level-major: light-dark(#96231d, #e88a80);
+  --level-operational: light-dark(#2f6a3e, #90c89d);
+  --level-unknown: light-dark(#655f56, #a9a08d);
+  --level-maintenance: light-dark(#28527c, #90b7dd);
+  --level-degraded: light-dark(#77570f, #d9b268);
+  --level-partial: light-dark(#94460f, #e7a172);
+  --level-major: light-dark(#8f1f19, #e98b81);
 
   --font-body: ui-serif, Georgia, 'Times New Roman', serif;
-  /* ruled paper: horizontal lines only */
-  --backdrop: linear-gradient(to bottom, var(--grid) var(--hairline), transparent var(--hairline));
-  --backdrop-size: 100% 1.75rem;
 }

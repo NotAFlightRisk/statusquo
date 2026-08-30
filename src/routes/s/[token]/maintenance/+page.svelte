@@ -25,7 +25,7 @@
 
 <BoardNav {base} here="maintenance" />
 
-<section aria-labelledby="ahead-title">
+<section class="panel" aria-labelledby="ahead-title">
   <h2 id="ahead-title" class="stamp">Ahead</h2>
   {#each ahead as entry (entry.service.token + entry.id)}
     <MaintenanceItem {entry} service={entry.service} detail />
@@ -37,7 +37,7 @@
 </section>
 
 {#if past.length}
-  <section aria-labelledby="past-title">
+  <section class="panel" aria-labelledby="past-title">
     <h2 id="past-title" class="stamp">Already done</h2>
     {#each past as entry (entry.service.token + entry.id)}
       <MaintenanceItem {entry} service={entry.service} />
@@ -47,21 +47,10 @@
 
 <style>
   .intro {
-    padding-block-end: var(--space-4);
-
     & p {
       margin-block-start: var(--space-2);
       color: var(--text-muted);
     }
-  }
-
-  section {
-    padding-block-start: var(--space-6);
-  }
-
-  h2 {
-    padding-block-end: var(--space-3);
-    border-block-end: var(--hairline) solid var(--rule-strong);
   }
 
   .empty {

@@ -62,7 +62,7 @@
 
 <BoardNav {base} here="" />
 
-<section aria-labelledby="trace-title">
+<section class="panel" aria-labelledby="trace-title">
   <h2 id="trace-title">Last 90 days</h2>
   <Trace incidents={service.incidents} height={64} />
   <dl class="readout">
@@ -86,7 +86,7 @@
 </section>
 
 {#if service.components.length}
-  <section aria-labelledby="components-title">
+  <section class="panel" aria-labelledby="components-title">
     <h2 id="components-title">Components</h2>
     {#each groups as [group, items] (group)}
       {#if group}<h3 class="group stamp">{group}</h3>{/if}
@@ -104,7 +104,7 @@
 {/if}
 
 {#if ahead.length}
-  <section aria-labelledby="ahead-title">
+  <section class="panel" aria-labelledby="ahead-title">
     <h2 id="ahead-title">Coming up</h2>
     {#each ahead as entry (entry.id)}
       <MaintenanceItem {entry} detail />
@@ -112,7 +112,7 @@
   </section>
 {/if}
 
-<section aria-labelledby="history-title">
+<section class="panel" aria-labelledby="history-title">
   <h2 id="history-title">Incident history</h2>
   {#if service.incidents.length}
     <MonthChart incidents={service.incidents} />
@@ -130,10 +130,6 @@
 </section>
 
 <style>
-  .intro {
-    padding-block-end: var(--space-5);
-  }
-
   .who {
     display: flex;
     align-items: center;
@@ -157,16 +153,6 @@
     border: var(--hairline) solid var(--level-unknown);
     color: var(--text-muted);
     font-size: 0.88rem;
-  }
-
-  section {
-    padding-block-start: var(--space-6);
-  }
-
-  h2 {
-    padding-block-end: var(--space-3);
-    margin-block-end: var(--space-4);
-    border-block-end: var(--hairline) solid var(--rule-strong);
   }
 
   .readout {

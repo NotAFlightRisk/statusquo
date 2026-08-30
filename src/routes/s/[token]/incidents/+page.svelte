@@ -39,7 +39,7 @@
 
 <BoardNav {base} here="incidents" />
 
-<div class="chart">
+<div class="chart panel">
   <MonthChart incidents={data.chart} />
 </div>
 
@@ -57,7 +57,7 @@
   {/each}
 </nav>
 
-<section>
+<section class="panel">
   {#each data.incidents as incident (incident.service.token + incident.id)}
     <IncidentItem {incident} service={incident.service} />
   {:else}
@@ -79,8 +79,6 @@
 
 <style>
   .intro {
-    padding-block-end: var(--space-4);
-
     & p {
       margin-block-start: var(--space-2);
       max-width: var(--measure);
@@ -88,16 +86,10 @@
     }
   }
 
-  .chart {
-    padding-block: var(--space-6);
-  }
-
   .filters {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
-    padding-block-end: var(--space-4);
-    border-block-end: var(--hairline) solid var(--rule-strong);
 
     & a {
       padding: var(--space-2) var(--space-3);

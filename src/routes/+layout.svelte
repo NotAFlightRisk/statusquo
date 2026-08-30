@@ -75,6 +75,9 @@
   }
 
   main {
+    display: grid;
+    align-content: start;
+    gap: var(--space-6);
     padding-block: var(--space-6);
     min-height: 60vh;
   }
