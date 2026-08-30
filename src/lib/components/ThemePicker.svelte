@@ -63,9 +63,11 @@
           onchange={() => pick(option.id)}
         />
         <span class="theme-swatch" data-theme={option.id} aria-hidden="true">
-          <i style:background="var(--level-operational)"></i>
-          <i style:background="var(--accent)"></i>
-          <i style:background="var(--level-major)"></i>
+          <span class="pane">
+            <i style:background="var(--level-operational)"></i>
+            <i style:background="var(--accent)"></i>
+            <i style:background="var(--level-major)"></i>
+          </span>
         </span>
         <span class="name">
           {option.label}
@@ -104,8 +106,8 @@
     color: var(--text);
     border: var(--hairline) solid var(--rule-strong);
     border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    backdrop-filter: var(--blur);
+    box-shadow: var(--panel-shadow);
+    backdrop-filter: var(--panel-blur);
   }
 
   fieldset {
@@ -151,19 +153,30 @@
   .theme-swatch {
     display: flex;
     flex: none;
-    gap: 2px;
     align-items: center;
     justify-content: center;
-    width: 2.6rem;
-    height: 1.6rem;
-    background: var(--surface);
+    width: 3.2rem;
+    height: 2rem;
+    background-color: var(--surface);
+    background-image: var(--paper);
+    background-size: var(--paper-size);
     border: var(--hairline) solid var(--rule-strong);
-    border-radius: var(--radius);
+    border-radius: min(var(--radius), 6px);
+  }
+
+  /* the pane inside, so a theme previews its material and not only its colours */
+  .pane {
+    display: flex;
+    gap: 2px;
+    padding: 3px 5px;
+    background: var(--panel-fill);
+    border: var(--panel-edge);
+    border-radius: min(var(--radius), 5px);
   }
 
   i {
-    width: 0.42rem;
-    height: 0.42rem;
+    width: 0.4rem;
+    height: 0.4rem;
     border-radius: 50%;
   }
 

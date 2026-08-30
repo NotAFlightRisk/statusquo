@@ -187,7 +187,7 @@
     background: var(--surface-raised);
     border: var(--hairline) solid var(--rule-strong);
     border-radius: var(--radius);
-    backdrop-filter: var(--blur);
+    backdrop-filter: var(--panel-blur);
 
     &::placeholder {
       color: var(--text-faint);
@@ -210,7 +210,7 @@
     background: var(--surface-raised);
     border: var(--hairline) solid var(--rule-strong);
     border-radius: var(--radius);
-    backdrop-filter: var(--blur);
+    backdrop-filter: var(--panel-blur);
     color: var(--text);
     cursor: pointer;
 

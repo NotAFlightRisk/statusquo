@@ -112,8 +112,8 @@
     padding: var(--space-5);
     background: var(--surface-raised);
     border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    backdrop-filter: var(--blur);
+    box-shadow: var(--panel-shadow);
+    backdrop-filter: var(--panel-blur);
     color: var(--text);
     border: var(--hairline) solid var(--rule-strong);
 

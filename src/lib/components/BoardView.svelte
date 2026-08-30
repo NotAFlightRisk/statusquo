@@ -32,7 +32,7 @@
 <Verdict board={current} />
 <BoardNav {base} here="board" />
 
-<section class="drum" aria-labelledby="drum-title">
+<section class="drum panel" aria-labelledby="drum-title">
   <div class="head">
     <h2 id="drum-title">The network</h2>
     <p class="stamp">
@@ -47,7 +47,7 @@
 </section>
 
 <div class="split">
-  <section aria-labelledby="incidents-title">
+  <section class="panel" aria-labelledby="incidents-title">
     <div class="head">
       <h2 id="incidents-title">Recent incidents</h2>
       {#if incidents.length > SUMMARY}
@@ -64,7 +64,7 @@
     {/each}
   </section>
 
-  <section aria-labelledby="maintenance-title">
+  <section class="panel" aria-labelledby="maintenance-title">
     <div class="head">
       <h2 id="maintenance-title">Coming up</h2>
       {#if maintenances.length > SUMMARY}
@@ -79,7 +79,7 @@
   </section>
 </div>
 
-<section aria-labelledby="trend-title">
+<section class="panel" aria-labelledby="trend-title">
   <div class="head">
     <h2 id="trend-title">The year in incidents</h2>
     <a class="stamp" href="{base}/trends">Full trends →</a>
@@ -88,32 +88,13 @@
 </section>
 
 <style>
-  section {
-    padding-block-start: var(--space-6);
-    padding-inline: var(--panel-pad);
-    padding-block-end: var(--panel-pad);
-    background: var(--panel);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    backdrop-filter: var(--blur);
-  }
-
-  .head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-4);
-    padding-block-end: var(--space-3);
-    border-block-end: var(--hairline) solid var(--rule-strong);
-  }
-
-  .drum .head {
+  .drum > .head {
     border-block-end-width: 2px;
   }
 
   .split {
     display: grid;
-    gap: var(--space-4) var(--space-7);
+    gap: var(--space-6);
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
   }
 

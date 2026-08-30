@@ -13,7 +13,7 @@ export const THEMES: Theme[] = [
   { id: 'nord', label: 'Nord', note: 'Arctic blues and muted aurora' },
   { id: 'solarized', label: 'Solarized', note: 'The old terminal standby' },
   { id: 'terminal', label: 'Terminal', note: 'Phosphor green, monospaced' },
-  { id: 'newsprint', label: 'Newsprint', note: 'Ruled paper and serif type' }
+  { id: 'newsprint', label: 'Newsprint', note: 'Grey stock and serif type' }
 ];
 
 export const DEFAULT_THEME = THEMES[0].id;

@@ -30,7 +30,7 @@
 
 <BoardNav {base} here="trends" />
 
-<section aria-labelledby="record-title">
+<section class="panel" aria-labelledby="record-title">
   <h2 id="record-title">The record</h2>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
   <div class="scroller" tabindex="0" role="region" aria-labelledby="record-title">
@@ -38,18 +38,18 @@
   </div>
 </section>
 
-<section aria-labelledby="rate-title">
+<section class="panel" aria-labelledby="rate-title">
   <h2 id="rate-title">Incidents per month</h2>
   <MonthChart incidents={data.incidents} />
 </section>
 
 <div class="split">
-  <section aria-labelledby="mix-title">
+  <section class="panel" aria-labelledby="mix-title">
     <h2 id="mix-title">How bad they get</h2>
     <ImpactBar {mix} />
   </section>
 
-  <section aria-labelledby="fix-title">
+  <section class="panel" aria-labelledby="fix-title">
     <h2 id="fix-title">How long they take</h2>
     <FixTimes rows={data.stats} />
   </section>
@@ -57,23 +57,11 @@
 
 <style>
   .intro {
-    padding-block-end: var(--space-4);
-
     & p {
       margin-block-start: var(--space-2);
       max-width: var(--measure);
       color: var(--text-muted);
     }
-  }
-
-  section {
-    padding-block-start: var(--space-6);
-  }
-
-  h2 {
-    padding-block-end: var(--space-3);
-    margin-block-end: var(--space-4);
-    border-block-end: var(--hairline) solid var(--rule-strong);
   }
 
   .scroller {
@@ -83,7 +71,7 @@
 
   .split {
     display: grid;
-    gap: var(--space-4) var(--space-7);
+    gap: var(--space-6);
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
   }
 </style>
