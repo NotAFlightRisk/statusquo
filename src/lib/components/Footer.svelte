@@ -5,9 +5,8 @@
   type Panel = (typeof PANELS)[number];
 
   const year = new Date().getFullYear();
-  const tracked = Boolean(
-    import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT || import.meta.env.PUBLIC_SENTRY_DSN
-  );
+  const analytics = Boolean(import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT);
+  const reporting = Boolean(import.meta.env.PUBLIC_SENTRY_DSN);
 
   let panel = $state<Panel | null>(null);
   let sheet = $state<HTMLDialogElement | null>(null);
@@ -55,10 +54,12 @@
       We fetch the status pages you name and nothing else. No cookies, no accounts, no logging of
       who looked at what.
     </p>
-    {#if tracked}
+    {#if analytics}
+      <p>This site counts visits with Plausible, which is anonymous and doesn't use cookies.</p>
+    {/if}
+    {#if reporting}
       <p>
-        This site counts visits with Plausible, which is anonymous and doesn't use cookies. If
-        something breaks, it sends us the error so we can fix it, with your board's link stripped
+        If something breaks, it sends us the error so we can fix it, with your board's link stripped
         out first.
       </p>
     {/if}
