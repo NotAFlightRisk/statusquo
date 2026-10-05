@@ -5,6 +5,9 @@
   type Panel = (typeof PANELS)[number];
 
   const year = new Date().getFullYear();
+  const tracked = Boolean(
+    import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT || import.meta.env.PUBLIC_SENTRY_DSN
+  );
 
   let panel = $state<Panel | null>(null);
   let sheet = $state<HTMLDialogElement | null>(null);
@@ -49,9 +52,16 @@
     </p>
   {:else if panel === 'Privacy'}
     <p>
-      We fetch the status pages you name and nothing else. No cookies, no accounts, no analytics, no
-      logging of who looked at what.
+      We fetch the status pages you name and nothing else. No cookies, no accounts, no logging of
+      who looked at what.
     </p>
+    {#if tracked}
+      <p>
+        This site counts visits with Plausible, which is anonymous and doesn't use cookies. If
+        something breaks, it sends us the error so we can fix it, with your board's link stripped
+        out first.
+      </p>
+    {/if}
     <p>
       Your board lives in its own URL rather than in a database, so there's nothing here to store or
       leak. Lose the link and it's gone, which is the trade.
