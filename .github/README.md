@@ -99,6 +99,7 @@ All optional. Copy `.env.example` if you'd rather use a file.
 | `STATUSQUO_PUBLIC`          | `true`             | Set `false` to hide the builder, so visitors only see the pinned board.                                                       |
 | `STATUSQUO_REFRESH_SECONDS` | `60`               | How long a board is held at the edge, and how often an open page asks for a fresh one. Minimum 15.                            |
 | `STATUSQUO_ICONS`           | DuckDuckGo         | Icon URL template. `{domain}` is replaced with the service's domain.                                                          |
+| `PUBLIC_PLAUSIBLE_SCRIPT`   | _(none)_           | Your [Plausible](https://plausible.io/) script URL, to count visits. Read at build time, so set it before building.           |
 
 A board is capped at 10 services, because each one costs up to three upstream requests and
 Cloudflare Workers allows 50 per request.
