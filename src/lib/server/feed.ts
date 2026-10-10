@@ -1,7 +1,7 @@
-import type { Board } from '$lib/types';
-import { LEVELS } from '$lib/status';
-import { allIncidents, allMaintenances } from '$lib/aggregate';
-import { boardDescription } from '$lib/describe';
+import type { Board } from '#lib/types.js';
+import { LEVELS } from '#lib/status.js';
+import { allIncidents, allMaintenances } from '#lib/aggregate.js';
+import { boardDescription } from '#lib/describe.js';
 
 const escape = (value: string) =>
   value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

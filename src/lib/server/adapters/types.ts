@@ -1,4 +1,4 @@
-import type { ServiceData } from '$lib/types';
+import type { ServiceData } from '#lib/types.js';
 
 export interface Adapter {
   id: string;

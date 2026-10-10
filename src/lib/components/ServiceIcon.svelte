@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { stationCode } from '$lib/format';
+  import { stationCode } from '#lib/format.js';
 
   interface Props {
     src: string;

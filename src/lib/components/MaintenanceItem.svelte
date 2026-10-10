@@ -1,7 +1,7 @@
 <script lang="ts">
   import ServiceIcon from './ServiceIcon.svelte';
-  import { dateLabel, relative } from '$lib/format';
-  import type { Maintenance, ServiceRef } from '$lib/types';
+  import { dateLabel, relative } from '#lib/format.js';
+  import type { Maintenance, ServiceRef } from '#lib/types.js';
 
   interface Props {
     entry: Maintenance;

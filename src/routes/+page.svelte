@@ -1,8 +1,8 @@
 <script lang="ts">
-  import BoardView from '$lib/components/BoardView.svelte';
-  import Builder from '$lib/components/Builder.svelte';
-  import Meta from '$lib/components/Meta.svelte';
-  import { boardDescription } from '$lib/describe';
+  import BoardView from '#lib/components/BoardView.svelte';
+  import Builder from '#lib/components/Builder.svelte';
+  import Meta from '#lib/components/Meta.svelte';
+  import { boardDescription } from '#lib/describe.js';
 
   let { data } = $props();
 </script>

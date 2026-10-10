@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { LEVELS } from '$lib/status';
-  import type { Level } from '$lib/types';
+  import { LEVELS } from '#lib/status.js';
+  import type { Level } from '#lib/types.js';
 
   interface Props {
     level: Level;

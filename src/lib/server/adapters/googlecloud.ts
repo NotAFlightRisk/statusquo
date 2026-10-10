@@ -1,5 +1,5 @@
 import type { Adapter } from './types';
-import { levelFromText, worst } from '$lib/status';
+import { levelFromText, worst } from '#lib/status.js';
 import { at, fetchJson } from '../http';
 
 interface RawIncident {

@@ -1,8 +1,8 @@
 <script lang="ts">
   import ServiceIcon from './ServiceIcon.svelte';
   import StatusMark from './StatusMark.svelte';
-  import { minutesLabel, stationCode } from '$lib/format';
-  import type { ServiceStats } from '$lib/stats';
+  import { minutesLabel, stationCode } from '#lib/format.js';
+  import type { ServiceStats } from '#lib/stats.js';
 
   let { rows }: { rows: ServiceStats[] } = $props();
 </script>

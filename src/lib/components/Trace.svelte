@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { LEVELS } from '$lib/status';
-  import { heatmap } from '$lib/stats';
-  import { coverageStart, tracePath, traceBands } from '$lib/trace';
-  import type { Incident } from '$lib/types';
+  import { LEVELS } from '#lib/status.js';
+  import { heatmap } from '#lib/stats.js';
+  import { coverageStart, tracePath, traceBands } from '#lib/trace.js';
+  import type { Incident } from '#lib/types.js';
 
   interface Props {
     incidents: Incident[];

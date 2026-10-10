@@ -1,7 +1,7 @@
 import type { RequestHandler } from './$types';
-import { boardOrFail } from '$lib/server/load';
-import { boardFeed } from '$lib/server/feed';
-import { siteConfig } from '$lib/server/config';
+import { boardOrFail } from '#lib/server/load.js';
+import { boardFeed } from '#lib/server/feed.js';
+import { siteConfig } from '#lib/server/config.js';
 
 export const GET: RequestHandler = async ({ params, url }) => {
   const board = await boardOrFail(params.token);

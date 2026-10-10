@@ -1,6 +1,6 @@
 import type { Adapter } from './types';
-import type { Incident, Maintenance } from '$lib/types';
-import { levelFromText, worst } from '$lib/status';
+import type { Incident, Maintenance } from '#lib/types.js';
+import { levelFromText, worst } from '#lib/status.js';
 import { at, fetchText } from '../http';
 
 const FEED_PATHS = [

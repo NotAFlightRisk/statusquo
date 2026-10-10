@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { LEVELS } from '$lib/status';
-  import { tooltip } from '$lib/tooltip';
-  import type { Level } from '$lib/types';
+  import { LEVELS } from '#lib/status.js';
+  import { tooltip } from '#lib/tooltip.js';
+  import type { Level } from '#lib/types.js';
 
   let { mix }: { mix: { level: Level; count: number }[] } = $props();
 

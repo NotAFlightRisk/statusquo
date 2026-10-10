@@ -1,3 +1,6 @@
+import adapterCloudflare from '@sveltejs/adapter-cloudflare';
+import adapterNode from '@sveltejs/adapter-node';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
@@ -13,7 +16,10 @@ export default defineConfig({
     'import.meta.env.SENTRY_RELEASE': JSON.stringify(process.env.GITHUB_SHA ?? '')
   },
   plugins: [
-    sveltekit(),
+    sveltekit({
+      preprocess: vitePreprocess(),
+      adapter: process.env.ADAPTER === 'node' ? adapterNode() : adapterCloudflare()
+    }),
     uploadMaps &&
       sentryVitePlugin({
         telemetry: false,

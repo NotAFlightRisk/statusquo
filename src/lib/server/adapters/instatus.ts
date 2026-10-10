@@ -1,6 +1,6 @@
 import type { Adapter } from './types';
-import type { Level } from '$lib/types';
-import { levelFromText, worst } from '$lib/status';
+import type { Level } from '#lib/types.js';
+import { levelFromText, worst } from '#lib/status.js';
 import { at, fetchJson } from '../http';
 import { loadFeedItems, splitFeedItems } from './feed';
 

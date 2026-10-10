@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types';
-import { allMaintenances } from '$lib/aggregate';
-import { boardOrFail, cacheHeaders } from '$lib/server/load';
-import { boardShell, slimList } from '$lib/slim';
+import { allMaintenances } from '#lib/aggregate.js';
+import { boardOrFail, cacheHeaders } from '#lib/server/load.js';
+import { boardShell, slimList } from '#lib/slim.js';
 
 export const load: PageServerLoad = async ({ params, setHeaders }) => {
   cacheHeaders(setHeaders);

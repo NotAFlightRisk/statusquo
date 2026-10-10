@@ -2,9 +2,9 @@
   import ServiceIcon from './ServiceIcon.svelte';
   import StatusMark from './StatusMark.svelte';
   import Trace from './Trace.svelte';
-  import { LEVELS } from '$lib/status';
-  import { relative, stationCode } from '$lib/format';
-  import type { Service } from '$lib/types';
+  import { LEVELS } from '#lib/status.js';
+  import { relative, stationCode } from '#lib/format.js';
+  import type { Service } from '#lib/types.js';
 
   interface Props {
     service: Service;

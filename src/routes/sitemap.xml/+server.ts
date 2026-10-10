@@ -1,5 +1,5 @@
 import type { RequestHandler } from './$types';
-import { siteConfig } from '$lib/server/config';
+import { siteConfig } from '#lib/server/config.js';
 
 export const GET: RequestHandler = ({ url }) => {
   const { pinned } = siteConfig();

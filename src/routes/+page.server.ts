@@ -1,8 +1,8 @@
 import type { PageServerLoad } from './$types';
-import { loadBoard } from '$lib/server/board';
-import { cacheHeaders } from '$lib/server/load';
-import { siteConfig } from '$lib/server/config';
-import { slimBoard } from '$lib/slim';
+import { loadBoard } from '#lib/server/board.js';
+import { cacheHeaders } from '#lib/server/load.js';
+import { siteConfig } from '#lib/server/config.js';
+import { slimBoard } from '#lib/slim.js';
 
 export const load: PageServerLoad = async ({ url, setHeaders }) => {
   const config = siteConfig();

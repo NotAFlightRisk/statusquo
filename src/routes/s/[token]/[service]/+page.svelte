@@ -1,15 +1,15 @@
 <script lang="ts">
-  import BoardNav from '$lib/components/BoardNav.svelte';
-  import IncidentItem from '$lib/components/IncidentItem.svelte';
-  import MaintenanceItem from '$lib/components/MaintenanceItem.svelte';
-  import Meta from '$lib/components/Meta.svelte';
-  import MonthChart from '$lib/components/MonthChart.svelte';
-  import ServiceIcon from '$lib/components/ServiceIcon.svelte';
-  import StatusMark from '$lib/components/StatusMark.svelte';
-  import Trace from '$lib/components/Trace.svelte';
-  import { LEVELS, worst } from '$lib/status';
-  import { daysSinceIncident, meanMinutes, upcoming } from '$lib/stats';
-  import { minutesLabel, relative, stationCode } from '$lib/format';
+  import BoardNav from '#lib/components/BoardNav.svelte';
+  import IncidentItem from '#lib/components/IncidentItem.svelte';
+  import MaintenanceItem from '#lib/components/MaintenanceItem.svelte';
+  import Meta from '#lib/components/Meta.svelte';
+  import MonthChart from '#lib/components/MonthChart.svelte';
+  import ServiceIcon from '#lib/components/ServiceIcon.svelte';
+  import StatusMark from '#lib/components/StatusMark.svelte';
+  import Trace from '#lib/components/Trace.svelte';
+  import { LEVELS, worst } from '#lib/status.js';
+  import { daysSinceIncident, meanMinutes, upcoming } from '#lib/stats.js';
+  import { minutesLabel, relative, stationCode } from '#lib/format.js';
 
   let { data } = $props();
 

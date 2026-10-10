@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { LEVELS, LEVEL_ORDER } from '$lib/status';
-  import { tooltip } from '$lib/tooltip';
-  import { byMonth } from '$lib/stats';
-  import type { Incident, Level } from '$lib/types';
+  import { LEVELS, LEVEL_ORDER } from '#lib/status.js';
+  import { tooltip } from '#lib/tooltip.js';
+  import { byMonth } from '#lib/stats.js';
+  import type { Incident, Level } from '#lib/types.js';
 
   interface Props {
     incidents: Incident[];
