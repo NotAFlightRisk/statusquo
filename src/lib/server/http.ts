@@ -1,4 +1,4 @@
-import { normaliseUrl } from '$lib/token';
+import { normaliseUrl } from '#lib/token.js';
 
 const TIMEOUT_MS = 9000;
 const MAX_HOPS = 5;

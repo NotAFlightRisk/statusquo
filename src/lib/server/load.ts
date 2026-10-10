@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import type { Board } from '$lib/types';
+import type { Board } from '#lib/types.js';
 import { loadBoard } from './board';
 import { siteConfig } from './config';
 

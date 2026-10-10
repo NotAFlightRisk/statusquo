@@ -1,5 +1,5 @@
-import { env } from '$env/dynamic/private';
-import { decodeToken, normaliseUrl, tokenFor } from '$lib/token';
+import * as env from '$app/env/private';
+import { decodeToken, normaliseUrl, tokenFor } from '#lib/token.js';
 
 export interface SiteConfig {
   /** Set STATUSQUO_PAGES to pin one board as the homepage, which is how self-hosters run it. */

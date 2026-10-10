@@ -1,7 +1,7 @@
 <script lang="ts">
-  import BoardView from '$lib/components/BoardView.svelte';
-  import Meta from '$lib/components/Meta.svelte';
-  import { boardDescription, boardTitle } from '$lib/describe';
+  import BoardView from '#lib/components/BoardView.svelte';
+  import Meta from '#lib/components/Meta.svelte';
+  import { boardDescription, boardTitle } from '#lib/describe.js';
 
   let { data } = $props();
 </script>

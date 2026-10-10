@@ -1,6 +1,6 @@
-import type { Board, Service, Target } from '$lib/types';
-import { worst } from '$lib/status';
-import { decodeToken, encodeToken, slugFor } from '$lib/token';
+import type { Board, Service, Target } from '#lib/types.js';
+import { worst } from '#lib/status.js';
+import { decodeToken, encodeToken, slugFor } from '#lib/token.js';
 import { ADAPTERS, BY_ID } from './adapters';
 import { siteConfig } from './config';
 

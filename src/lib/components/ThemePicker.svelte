@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { browser } from '$app/environment';
-  import { afterNavigate, replaceState } from '$app/navigation';
+  import { browser } from '$app/env';
+  import { afterNavigate, goto } from '$app/navigation';
   import { page } from '$app/state';
-  import { DEFAULT_THEME, isTheme, THEME_KEY, THEME_PARAM, THEMES } from '$lib/themes';
+  import { DEFAULT_THEME, isTheme, THEME_KEY, THEME_PARAM, THEMES } from '#lib/themes.js';
 
   // the head script has already applied one before paint; adopt it, or clear it if it was junk
   function adopt() {
@@ -14,16 +14,17 @@
 
   let theme = $state(browser ? adopt() : DEFAULT_THEME);
 
-  // replaceState needs the router up, and that isn't true on the first hydrating effect
+  // a shallow goto needs the router up, and that isn't true on the first hydrating effect
   let routed = $state(false);
-  afterNavigate(() => {
+  afterNavigate(({ shallow, type }) => {
+    if (shallow && type === 'goto') return;
     routed = true;
     const arriving = page.url.searchParams.get(THEME_PARAM);
     if (isTheme(arriving)) apply(arriving);
   });
 
   // A board wears its theme in the URL, so a link you send someone arrives looking the same.
-  // page.url drives the reactivity but goes stale after replaceState, so the query comes from
+  // page.url drives the reactivity but goes stale after a shallow goto, so the query comes from
   // the address bar itself.
   $effect(() => {
     if (!routed || !page.url.pathname.startsWith('/s/')) return;
@@ -32,7 +33,7 @@
     if (url.searchParams.get(THEME_PARAM) === wanted) return;
     if (wanted) url.searchParams.set(THEME_PARAM, wanted);
     else url.searchParams.delete(THEME_PARAM);
-    replaceState(url, page.state);
+    goto(url, { shallow: true, replace: true, state: page.state });
   });
 
   function apply(id: string) {

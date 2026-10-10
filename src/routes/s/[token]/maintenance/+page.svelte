@@ -1,8 +1,8 @@
 <script lang="ts">
-  import BoardNav from '$lib/components/BoardNav.svelte';
-  import MaintenanceItem from '$lib/components/MaintenanceItem.svelte';
-  import Meta from '$lib/components/Meta.svelte';
-  import { upcoming } from '$lib/stats';
+  import BoardNav from '#lib/components/BoardNav.svelte';
+  import MaintenanceItem from '#lib/components/MaintenanceItem.svelte';
+  import Meta from '#lib/components/Meta.svelte';
+  import { upcoming } from '#lib/stats.js';
 
   let { data } = $props();
 

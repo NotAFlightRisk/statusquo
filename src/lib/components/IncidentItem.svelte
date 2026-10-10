@@ -1,8 +1,8 @@
 <script lang="ts">
   import ServiceIcon from './ServiceIcon.svelte';
   import StatusMark from './StatusMark.svelte';
-  import { dateLabel, duration, relative } from '$lib/format';
-  import type { Incident, ServiceRef } from '$lib/types';
+  import { dateLabel, duration, relative } from '#lib/format.js';
+  import type { Incident, ServiceRef } from '#lib/types.js';
 
   interface Props {
     incident: Incident;

@@ -1,11 +1,11 @@
 <script lang="ts">
-  import BoardNav from '$lib/components/BoardNav.svelte';
-  import Meta from '$lib/components/Meta.svelte';
-  import MonthChart from '$lib/components/MonthChart.svelte';
-  import ReadoutTable from '$lib/components/ReadoutTable.svelte';
-  import ImpactBar from '$lib/components/ImpactBar.svelte';
-  import FixTimes from '$lib/components/FixTimes.svelte';
-  import { impactMix } from '$lib/stats';
+  import BoardNav from '#lib/components/BoardNav.svelte';
+  import Meta from '#lib/components/Meta.svelte';
+  import MonthChart from '#lib/components/MonthChart.svelte';
+  import ReadoutTable from '#lib/components/ReadoutTable.svelte';
+  import ImpactBar from '#lib/components/ImpactBar.svelte';
+  import FixTimes from '#lib/components/FixTimes.svelte';
+  import { impactMix } from '#lib/stats.js';
 
   let { data } = $props();
 

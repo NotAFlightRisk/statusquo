@@ -1,6 +1,6 @@
 import type { Adapter } from './types';
-import type { Level } from '$lib/types';
-import { worst } from '$lib/status';
+import type { Level } from '#lib/types.js';
+import { worst } from '#lib/status.js';
 import { at, fetchJson } from '../http';
 
 const COMPONENT: Level[] = ['unknown', 'operational', 'degraded', 'partial', 'major'];

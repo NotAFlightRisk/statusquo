@@ -1,9 +1,9 @@
 <script lang="ts">
-  import BoardNav from '$lib/components/BoardNav.svelte';
-  import IncidentItem from '$lib/components/IncidentItem.svelte';
-  import Meta from '$lib/components/Meta.svelte';
-  import MonthChart from '$lib/components/MonthChart.svelte';
-  import { LEVELS, LEVEL_ORDER } from '$lib/status';
+  import BoardNav from '#lib/components/BoardNav.svelte';
+  import IncidentItem from '#lib/components/IncidentItem.svelte';
+  import Meta from '#lib/components/Meta.svelte';
+  import MonthChart from '#lib/components/MonthChart.svelte';
+  import { LEVELS, LEVEL_ORDER } from '#lib/status.js';
 
   let { data } = $props();
 

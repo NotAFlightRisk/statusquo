@@ -1,6 +1,6 @@
 import type { Adapter } from './types';
-import type { Incident, Level, Maintenance, Update } from '$lib/types';
-import { levelFromText, worst } from '$lib/status';
+import type { Incident, Level, Maintenance, Update } from '#lib/types.js';
+import { levelFromText, worst } from '#lib/status.js';
 import { at, fetchJson } from '../http';
 
 const INDICATOR: Record<string, Level> = {

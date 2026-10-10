@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { boardOrFail, cacheHeaders } from '$lib/server/load';
-import { boardShell, detailService } from '$lib/slim';
+import { boardOrFail, cacheHeaders } from '#lib/server/load.js';
+import { boardShell, detailService } from '#lib/slim.js';
 
 export const load: PageServerLoad = async ({ params, setHeaders }) => {
   cacheHeaders(setHeaders);

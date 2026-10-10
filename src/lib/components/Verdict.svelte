@@ -1,8 +1,8 @@
 <script lang="ts">
   import StatusMark from './StatusMark.svelte';
-  import { LEVELS, isDown } from '$lib/status';
-  import { relative } from '$lib/format';
-  import type { Board } from '$lib/types';
+  import { LEVELS, isDown } from '#lib/status.js';
+  import { relative } from '#lib/format.js';
+  import type { Board } from '#lib/types.js';
 
   interface Props {
     board: Board;

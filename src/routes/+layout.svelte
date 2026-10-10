@@ -1,12 +1,12 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import '../app.css';
-  import Footer from '$lib/components/Footer.svelte';
-  import Loading from '$lib/components/Loading.svelte';
-  import ThemePicker from '$lib/components/ThemePicker.svelte';
-  import ThemeToggle from '$lib/components/ThemeToggle.svelte';
-  import Wordmark from '$lib/components/Wordmark.svelte';
-  import { loadPlausible } from '$lib/plausible';
+  import Footer from '#lib/components/Footer.svelte';
+  import Loading from '#lib/components/Loading.svelte';
+  import ThemePicker from '#lib/components/ThemePicker.svelte';
+  import ThemeToggle from '#lib/components/ThemeToggle.svelte';
+  import Wordmark from '#lib/components/Wordmark.svelte';
+  import { loadPlausible } from '#lib/plausible.js';
 
   let { data, children } = $props();
 

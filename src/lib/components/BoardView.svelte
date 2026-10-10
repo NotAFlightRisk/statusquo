@@ -5,10 +5,10 @@
   import StationRow from './StationRow.svelte';
   import Verdict from './Verdict.svelte';
   import BoardNav from './BoardNav.svelte';
-  import { allIncidents, allMaintenances } from '$lib/aggregate';
-  import { livePoll } from '$lib/live.svelte';
-  import { upcoming } from '$lib/stats';
-  import type { Board } from '$lib/types';
+  import { allIncidents, allMaintenances } from '#lib/aggregate.js';
+  import { livePoll } from '#lib/live.svelte.js';
+  import { upcoming } from '#lib/stats.js';
+  import type { Board } from '#lib/types.js';
 
   interface Props {
     board: Board;

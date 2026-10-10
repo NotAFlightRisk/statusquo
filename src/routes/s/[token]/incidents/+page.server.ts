@@ -1,8 +1,8 @@
 import type { PageServerLoad } from './$types';
-import { allIncidents } from '$lib/aggregate';
-import { boardOrFail, cacheHeaders } from '$lib/server/load';
-import { boardShell, slimList } from '$lib/slim';
-import type { Level } from '$lib/types';
+import { allIncidents } from '#lib/aggregate.js';
+import { boardOrFail, cacheHeaders } from '#lib/server/load.js';
+import { boardShell, slimList } from '#lib/slim.js';
+import type { Level } from '#lib/types.js';
 
 const PER_PAGE = 60;
 

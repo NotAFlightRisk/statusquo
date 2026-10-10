@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { minutesLabel } from '$lib/format';
-  import { tooltip } from '$lib/tooltip';
-  import type { ServiceStats } from '$lib/stats';
+  import { minutesLabel } from '#lib/format.js';
+  import { tooltip } from '#lib/tooltip.js';
+  import type { ServiceStats } from '#lib/stats.js';
 
   let { rows }: { rows: ServiceStats[] } = $props();
 

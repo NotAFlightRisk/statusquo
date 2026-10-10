@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { MAX_SERVICES, tokenFor } from '$lib/token';
-import { BY_SLUG } from '$lib/catalogue';
+import { MAX_SERVICES, tokenFor } from '#lib/token.js';
+import { BY_SLUG } from '#lib/catalogue.js';
 
 /** Where the builder form lands. Turns the picks into a token and sends you to the board. */
 export const GET: RequestHandler = ({ url }) => {

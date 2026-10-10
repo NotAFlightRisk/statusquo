@@ -1,8 +1,8 @@
 <script lang="ts">
   import ServiceIcon from './ServiceIcon.svelte';
-  import { CATALOGUE } from '$lib/catalogue';
-  import { MAX_SERVICES, normaliseUrl, tokenFor } from '$lib/token';
-  import { stationCode } from '$lib/format';
+  import { CATALOGUE } from '#lib/catalogue.js';
+  import { MAX_SERVICES, normaliseUrl, tokenFor } from '#lib/token.js';
+  import { stationCode } from '#lib/format.js';
 
   interface Props {
     icons: string;
