@@ -15,7 +15,8 @@ const adapters = {
   vercel: () => adapterVercel({ runtime: 'nodejs22.x' }),
   cloudflare: () => adapterCloudflare()
 };
-const adapter = adapters[process.env.ADAPTER as keyof typeof adapters] ?? adapters.cloudflare;
+const target = process.env.ADAPTER ?? (process.env.VERCEL ? 'vercel' : 'cloudflare');
+const adapter = adapters[target as keyof typeof adapters] ?? adapters.cloudflare;
 
 export default defineConfig({
   define: {
