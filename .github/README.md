@@ -64,7 +64,7 @@ ADAPTER=cloudflare npm run build && npx wrangler deploy
 
 ### Option 2: Vercel
 
-Fork the repo, import it in Vercel, and set `ADAPTER=vercel`.
+Fork the repo and import it in Vercel - it picks the Vercel build by itself. Or use the button 👇
 
 [![1-Click Deploy to Vercel](https://img.shields.io/badge/Deploy-Vercel-ffffff?style=for-the-badge&logo=vercel&labelColor=1b2744&link=https%3A%2F%2Fstatusquo.peng.ly)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FNotAFlightRisk%2Fstatusquo&demo-title=statusquo&demo-url=https%3A%2F%2Fstatusquo.peng.ly)
 

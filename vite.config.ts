@@ -1,5 +1,6 @@
 import adapterCloudflare from '@sveltejs/adapter-cloudflare';
 import adapterNode from '@sveltejs/adapter-node';
+import adapterVercel from '@sveltejs/adapter-vercel';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { sveltekit } from '@sveltejs/kit/vite';
@@ -8,6 +9,14 @@ import { defineConfig } from 'vitest/config';
 const plausible = process.env.PUBLIC_PLAUSIBLE_SCRIPT ?? '';
 const sentry = process.env.PUBLIC_SENTRY_DSN ?? '';
 const uploadMaps = Boolean(process.env.SENTRY_AUTH_TOKEN && process.env.SENTRY_URL);
+
+const adapters = {
+  node: () => adapterNode(),
+  vercel: () => adapterVercel({ runtime: 'nodejs22.x' }),
+  cloudflare: () => adapterCloudflare()
+};
+const target = process.env.ADAPTER ?? (process.env.VERCEL ? 'vercel' : 'cloudflare');
+const adapter = adapters[target as keyof typeof adapters] ?? adapters.cloudflare;
 
 export default defineConfig({
   define: {
@@ -18,7 +27,7 @@ export default defineConfig({
   plugins: [
     sveltekit({
       preprocess: vitePreprocess(),
-      adapter: process.env.ADAPTER === 'node' ? adapterNode() : adapterCloudflare()
+      adapter: adapter()
     }),
     uploadMaps &&
       sentryVitePlugin({
