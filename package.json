@@ -17,7 +17,7 @@
     "@fontsource-variable/archivo": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@sentry/browser": "^11.8.0",
-    "@sentry/vite-plugin": "^5.4.1",
+    "@sentry/vite-plugin": "^11.8.0",
     "@sveltejs/adapter-cloudflare": "^8.0.1",
     "@sveltejs/adapter-node": "^6.0.0",
     "@sveltejs/kit": "^3.1.0",
