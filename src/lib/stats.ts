@@ -33,8 +33,9 @@ export function heatmap(incidents: Incident[], days = 90, now = Date.now()): Day
     const at = start + offset * DAY_MS;
     const hit = incidents.filter((incident) => {
       const from = new Date(incident.startedAt).valueOf();
-      // An open incident is still running, so it covers every day up to today
-      const to = incident.endedAt ? new Date(incident.endedAt).valueOf() : now;
+      // No end time: an open one runs to today, a resolved one only marks the day it started
+      const unended = incident.resolved ? from + 1 : now;
+      const to = incident.endedAt ? new Date(incident.endedAt).valueOf() : unended;
       return from < at + DAY_MS && to > at;
     });
     cells.push({
