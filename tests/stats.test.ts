@@ -36,6 +36,11 @@ describe('heatmap', () => {
     expect(cells.filter((cell) => cell.level === 'major').length).toBeGreaterThanOrEqual(5);
   });
 
+  it('keeps a resolved incident with no end time to the day it started', () => {
+    const cells = heatmap([incident(5, { endedAt: null })], 10, NOW);
+    expect(cells.filter((cell) => cell.level === 'major')).toHaveLength(1);
+  });
+
   it('marks days before a paged-out history as unpublished, not as fine', () => {
     const capped = Array.from({ length: 30 }, (_, index) => incident(index + 1));
     const cells = heatmap(capped, 90, NOW);
