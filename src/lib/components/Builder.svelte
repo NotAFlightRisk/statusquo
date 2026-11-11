@@ -22,6 +22,7 @@
   let sections = $derived(
     [...Map.groupBy(shown, (entry) => entry.group)].map(([group, entries]) => ({ group, entries }))
   );
+  let filteredOut = $derived(picked.filter((slug) => !shown.some((entry) => entry.slug === slug)));
   // Tokens, not URLs - pasting a service you already ticked is the same service.
   let taken = $derived(new Set([...picked, ...pasted.map((url) => tokenFor(url) ?? url)]));
   let locked = $derived(taken.size >= MAX_SERVICES);
@@ -132,6 +133,10 @@
       <p class="empty">Nothing in the index matches that. Paste its address instead.</p>
     {/each}
   </div>
+
+  {#each filteredOut as slug (slug)}
+    <input type="hidden" name="page" value={slug} />
+  {/each}
 
   {#if carried}
     <input type="hidden" name="page" value={carried} />
