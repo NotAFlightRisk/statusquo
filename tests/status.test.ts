@@ -22,6 +22,14 @@ describe('levelFromText', () => {
     expect(levelFromText('Scheduled maintenance, major work')).toBe('maintenance');
   });
 
+  it('reads down as a word, not inside downloads or slowdowns', () => {
+    expect(levelFromText('API down')).toBe('major');
+    expect(levelFromText('Unexpected downtime')).toBe('major');
+    expect(levelFromText('Slower downloads in the Asia-Pacific region')).toBe('degraded');
+    expect(levelFromText('Project editor slowdown')).toBe('degraded');
+    expect(levelFromText('Fixed by our downstream provider')).toBe('unknown');
+  });
+
   it('admits when it cannot tell', () => {
     expect(levelFromText('')).toBe('unknown');
     expect(levelFromText(null)).toBe('unknown');
