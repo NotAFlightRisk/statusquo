@@ -38,12 +38,15 @@ export function isDown(level: Level): boolean {
 
 /** Loose fallback for providers we have no explicit mapping for, like a bare RSS feed. */
 export function levelFromText(raw: string | null | undefined): Level {
-  const text = (raw ?? '').toLowerCase().replace(/[\s_-]+/g, '');
+  const text = (raw ?? '')
+    .toLowerCase()
+    .replace(/[\s_-]+/g, ' ')
+    .trim();
   if (!text) return 'unknown';
   const rules: [RegExp, Level][] = [
     [/maintenance|scheduled/, 'maintenance'],
-    [/partial|someissue|minoroutage/, 'partial'],
-    [/major|critical|severe|fulloutage|hasissues|unavailable|offline|down|outage/, 'major'],
+    [/partial|some ?issue|minor ?outage/, 'partial'],
+    [/major|critical|severe|has ?issues|unavailable|offline|\bdown(time)?\b|outage/, 'major'],
     [/degraded|minor|slow|elevated|disrupt|performance|investigating|identified/, 'degraded'],
     [/operational|resolved|completed|available|normal|nominal|good|none|^ok$|^up$/, 'operational']
   ];
