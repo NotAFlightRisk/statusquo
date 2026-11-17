@@ -47,7 +47,7 @@ export function levelFromText(raw: string | null | undefined): Level {
     [/maintenance|scheduled/, 'maintenance'],
     [/partial|some ?issue|minor ?outage/, 'partial'],
     [/major|critical|severe|has ?issues|unavailable|offline|\bdown(time)?\b|outage/, 'major'],
-    [/degraded|minor|slow|elevated|disrupt|performance|investigating|identified/, 'degraded'],
+    [/degrad|minor|slow|elevated|disrupt|performance|investigating|identified/, 'degraded'],
     [/operational|resolved|completed|available|normal|nominal|good|none|^ok$|^up$/, 'operational']
   ];
   return rules.find(([pattern]) => pattern.test(text))?.[1] ?? 'unknown';

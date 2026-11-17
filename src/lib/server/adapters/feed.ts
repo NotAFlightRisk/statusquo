@@ -93,6 +93,12 @@ const isResolved = (item: FeedItem) =>
   /resolved|completed|restored/i.test(item.body.slice(0, 400)) ||
   Date.now() - new Date(item.at).valueOf() > LIVE_WINDOW_MS;
 
+// it's an incident, so reading as fine just means the feed never said how bad it got
+const severity = (item: FeedItem) => {
+  const level = levelFromText(`${item.title} ${item.body.slice(0, 200)}`);
+  return level === 'operational' ? 'unknown' : level;
+};
+
 export function splitFeedItems(items: FeedItem[]): {
   incidents: Incident[];
   maintenances: Maintenance[];
@@ -102,7 +108,7 @@ export function splitFeedItems(items: FeedItem[]): {
     .map((item) => ({
       id: item.id,
       title: item.title,
-      level: levelFromText(`${item.title} ${item.body.slice(0, 200)}`),
+      level: severity(item),
       status: isResolved(item) ? 'resolved' : 'ongoing',
       resolved: isResolved(item),
       startedAt: item.at,
