@@ -11,6 +11,7 @@
   let { board }: Props = $props();
 
   let troubled = $derived(board.services.filter((service) => isDown(service.level)));
+  let servicing = $derived(board.services.filter((service) => service.level === 'maintenance'));
   let unclear = $derived(board.services.filter((service) => service.level === 'unknown'));
   let unreadable = $derived(board.services.filter((service) => service.error));
 
@@ -28,6 +29,9 @@
       return `${listed(troubled)} ${troubled.length === 1 ? 'is' : 'are'} having trouble`;
     }
     if (unreadable.length === total) return `Nothing readable across ${total} ${noun}`;
+    if (servicing.length) {
+      return `${listed(servicing)} ${servicing.length === 1 ? 'is' : 'are'} under maintenance`;
+    }
     if (unclear.length) return `No clear status from ${listed(unclear)}`;
     return `All ${total} ${noun} running clean`;
   });
