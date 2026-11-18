@@ -845,10 +845,10 @@ export const CATALOGUE: CatalogueEntry[] = [
   {
     slug: 'intercom',
     name: 'Intercom',
-    url: 'https://www.intercomstatus.com',
+    url: 'https://www.finstatus.com',
     site: 'intercom.com',
     group: 'Messaging',
-    provider: 'feed'
+    provider: 'statuspage'
   },
   {
     slug: 'livekit',
@@ -1007,14 +1007,6 @@ export const CATALOGUE: CatalogueEntry[] = [
     name: 'Notion',
     url: 'https://status.notion.so',
     site: 'notion.so',
-    group: 'Productivity',
-    provider: 'feed'
-  },
-  {
-    slug: 'okteto',
-    name: 'Okteto',
-    url: 'https://status.okteto.com',
-    site: 'okteto.com',
     group: 'Productivity',
     provider: 'feed'
   },
