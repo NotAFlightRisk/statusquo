@@ -15,6 +15,12 @@ describe('boardDescription', () => {
     ).toContain('no clear status from example.com');
   });
 
+  it('names stations under maintenance rather than calling them clean', () => {
+    const text = boardDescription(board(['GitHub', 'operational'], ['Confluent', 'maintenance']));
+    expect(text).toContain('Confluent under maintenance');
+    expect(text).not.toContain('running clean');
+  });
+
   it('leads with trouble over stations it cannot read', () => {
     const text = boardDescription(board(['Slack', 'major'], ['example.com', 'unknown']));
     expect(text).toContain('Slack reporting trouble');

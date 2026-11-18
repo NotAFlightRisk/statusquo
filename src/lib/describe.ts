@@ -6,6 +6,8 @@ const joined = (services: Service[]) => services.map((service) => service.name).
 function verdict(services: Service[]): string {
   const troubled = services.filter((service) => isDown(service.level));
   if (troubled.length) return `${joined(troubled)} reporting trouble`;
+  const servicing = services.filter((service) => service.level === 'maintenance');
+  if (servicing.length) return `${joined(servicing)} under maintenance`;
   const unclear = services.filter((service) => service.level === 'unknown');
   return unclear.length ? `no clear status from ${joined(unclear)}` : 'everything running clean';
 }
