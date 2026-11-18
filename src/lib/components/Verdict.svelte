@@ -2,7 +2,7 @@
   import StatusMark from './StatusMark.svelte';
   import { LEVELS, isDown } from '#lib/status.js';
   import { relative } from '#lib/format.js';
-  import type { Board } from '#lib/types.js';
+  import type { Board, Service } from '#lib/types.js';
 
   interface Props {
     board: Board;
@@ -11,20 +11,24 @@
   let { board }: Props = $props();
 
   let troubled = $derived(board.services.filter((service) => isDown(service.level)));
+  let unclear = $derived(board.services.filter((service) => service.level === 'unknown'));
   let unreadable = $derived(board.services.filter((service) => service.error));
+
+  function listed(services: Service[]): string {
+    const names = services.map((service) => service.name);
+    return names.length === 1
+      ? names[0]
+      : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+  }
 
   let headline = $derived.by(() => {
     const total = board.services.length;
     const noun = total === 1 ? 'station' : 'stations';
     if (troubled.length) {
-      const names = troubled.map((service) => service.name);
-      const list =
-        names.length === 1
-          ? names[0]
-          : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
-      return `${list} ${troubled.length === 1 ? 'is' : 'are'} having trouble`;
+      return `${listed(troubled)} ${troubled.length === 1 ? 'is' : 'are'} having trouble`;
     }
     if (unreadable.length === total) return `Nothing readable across ${total} ${noun}`;
+    if (unclear.length) return `No clear status from ${listed(unclear)}`;
     return `All ${total} ${noun} running clean`;
   });
 </script>
